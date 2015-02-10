@@ -37,3 +37,10 @@
 	"Write a function which removes consecutive duplicates from a sequence."
 	([s] (reduce p30 [] s))
 	([a b] (if (= (last a) b ) a (conj a b))))
+
+(defn p31
+	"Write a function which packs consecutive duplicates into sub-lists."
+	([s] (p31 [] s))
+	([r s] (loop [resp r seq s]
+			(if (empty? seq) resp
+				(recur (conj resp (first (split-with (partial = (first seq)) seq))) (last (split-with (partial = (first seq)) seq)))))))
