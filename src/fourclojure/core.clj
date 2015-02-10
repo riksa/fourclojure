@@ -32,3 +32,8 @@
 (defn p29
 	"Write a function which takes a string and returns a new string containing only the capital letters."
 	([s] (apply str (filter #(and (<= (int %) (int \Z))(>= (int %) (int \A))) s))))
+
+(defn p30
+	"Write a function which removes consecutive duplicates from a sequence."
+	([s] (reduce p30 [] s))
+	([a b] (if (= (last a) b ) a (conj a b))))
