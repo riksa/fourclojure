@@ -29,3 +29,6 @@
 	"Write a function which flattens a sequence."
 	( [seq] (if (coll? seq) (reduce concat (map p28 seq)) (list seq))))
 
+(defn p29
+	"Write a function which takes a string and returns a new string containing only the capital letters."
+	([s] (apply str (filter #(and (<= (int %) (int \Z))(>= (int %) (int \A))) s))))

@@ -46,3 +46,16 @@
     	(= (p28 '((((:a))))) '(:a))
     )
 ))
+
+(deftest p29test
+  (testing "p29"
+    (is 
+		(= (p29 "HeLlO, WoRlD!") "HLOWRD")
+    )
+    (is
+		(empty? (p29 "nothing"))    	
+	)
+	(is
+		(= (p29 "$#A(*&987Zf") "AZ")		
+	)
+))
