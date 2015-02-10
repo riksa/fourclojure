@@ -14,3 +14,22 @@
 		(= '(1 1 2 3 5 8 13 21) (p26 8))
     )
   ))
+
+(deftest p27test
+  (testing "p27"
+    (is 
+		(false? (p27 '(1 2 3 4 5)))
+    )
+    (is 
+		(true? (p27 "racecar"))
+	)
+    (is
+		(true? (p27 [:foo :bar :foo]))
+	)
+    (is 
+    	(true? (p27 '(1 1 3 3 1 1)))
+	)
+    (is 
+    	(false? (p27 '(:a :b :c)))
+    )
+  ))
