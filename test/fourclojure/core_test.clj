@@ -156,3 +156,10 @@
     (is
       (= (p39 [30 20] [25 15]) [30 25 20 15]))
     ))
+
+(deftest p40test
+  (testing "p40"
+    (is (= (p40 0 [1 2 3]) [1 0 2 0 3]))
+    (is (= (apply str (p40 ", " ["one" "two" "three"])) "one, two, three"))
+    (is (= (p40 :z [:a :b :c :d]) [:a :z :b :z :c :z :d]))
+    ))
