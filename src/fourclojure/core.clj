@@ -54,4 +54,9 @@
   ([s n] (apply concat (map #(repeat n %) s))))
 
 (defn p34
+  "Write a function which creates a list of all integers in a given range."
   ([a b] (take (- b a) (iterate inc a))))
+
+(defn p35
+  "Clojure lets you give local names to values using the special let-form."
+  ([] 7))

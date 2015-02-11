@@ -123,3 +123,14 @@
     (is
       (= (p34 5 8) '(5 6 7)))
     ))
+
+(deftest p35test
+  "Clojure lets you give local names to values using the special let-form."
+  (testing "p35"
+    (is
+      (= (p35) (let [x 5] (+ 2 x))))
+    (is
+      (= (p35) (let [x 3, y 10] (- y x))))
+    (is
+      (= (p35) (let [x 21] (let [y 3] (/ x y)))))
+    ))
