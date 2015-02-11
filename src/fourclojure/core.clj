@@ -65,4 +65,9 @@
 
 (defn p38
   "Write a function which takes a variable number of parameters and returns the maximum value."
-  ([& rest] (reduce #(if (> %1 %2 ) %1 %2) rest)))
+  ([& rest] (reduce #(if (> %1 %2) %1 %2) rest)))
+
+(defn p39
+  "Write a function which takes two sequences and returns the first item from each, then the second item from each, then the third, etc."
+  ([s1 s2] (loop [r [] s1 s1 s2 s2]
+             (if (or (empty? s1) (empty? s2)) r (recur (conj r (first s1) (first s2)) (rest s1) (rest s2))))))
