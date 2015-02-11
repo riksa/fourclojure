@@ -44,3 +44,7 @@
 	([r s] (loop [resp r seq s]
 			(if (empty? seq) resp
 				(recur (conj resp (first (split-with (partial = (first seq)) seq))) (last (split-with (partial = (first seq)) seq)))))))
+
+(defn p32
+	"Write a function which duplicates each element of a sequence."
+	([s] (interleave s s)))
