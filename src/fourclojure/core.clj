@@ -51,4 +51,7 @@
 
 (defn p33
   "Write a function which replicates each element of a sequence a variable number of times."
-  ([s n] (apply concat (map #(repeat n %) s ))))
+  ([s n] (apply concat (map #(repeat n %) s))))
+
+(defn p34
+  ([a b] (take (- b a) (iterate inc a))))

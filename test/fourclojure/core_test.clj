@@ -112,3 +112,14 @@
     (is
       (= (p33 [44 33] 2) [44 44 33 33]))
     ))
+
+(deftest p34test
+  "Write a function which creates a list of all integers in a given range."
+  (testing "p34"
+    (is
+      (= (p34 1 4) '(1 2 3)))
+    (is
+      (= (p34 -2 2) '(-2 -1 0 1)))
+    (is
+      (= (p34 5 8) '(5 6 7)))
+    ))
