@@ -74,5 +74,5 @@
 
 (defn p40
   "Write a function which separates the items of a sequence by an arbitrary value."
-  ([v s] (loop [r [] s1 s s2 (repeat v)]
-           (if (or (empty? s1) (empty? s2)) (drop-last r) (recur (conj r (first s1) (first s2)) (rest s1) (rest s2))))))
+  ([v s] (loop [r [] s1 s]
+           (if (empty? s1) (drop-last r) (recur (conj r (first s1) v) (rest s1))))))
