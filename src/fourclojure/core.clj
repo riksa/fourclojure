@@ -60,3 +60,9 @@
 (defn p35
   "Clojure lets you give local names to values using the special let-form."
   ([] 7))
+
+; p36 and p37 were not really testable, just teaching to assign
+
+(defn p38
+  "Write a function which takes a variable number of parameters and returns the maximum value."
+  ([& rest] (reduce #(if (> %1 %2 ) %1 %2) rest)))
