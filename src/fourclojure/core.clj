@@ -81,3 +81,7 @@
   "Write a function which drops every Nth item from a sequence."
   ([s n] (loop [r [] s s]
            (if (empty? s) r (recur (concat r (take (dec n) s)) (drop n s))))))
+
+(defn p42
+  "Write a function which calculates factorials."
+  ([n] (reduce * (take n (iterate inc 1)))))
