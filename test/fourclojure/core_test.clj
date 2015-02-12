@@ -182,3 +182,9 @@
     (is (= (p71 (sort (rest (reverse [2 5 4 1 3 6]))))
            (-> [2 5 4 1 3 6] (reverse) (rest) (sort) (p71))
            5))))
+
+(deftest p19test
+  (testing "p19"
+    (is (= (p19 [1 2 3 4 5]) 5))
+    (is (= (p19 '(5 4 3)) 3))
+    (is (= (p19 ["b" "c" "d"]) "d"))))
