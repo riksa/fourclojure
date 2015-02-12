@@ -92,4 +92,4 @@
 
 (defn p19
   "Write a function which returns the last element in a sequence."
-  ([s] (reduce #(if true %2 %1) s)))
+  ([s] (-> s reverse first)))
