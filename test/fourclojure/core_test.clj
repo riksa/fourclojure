@@ -176,3 +176,9 @@
     (is (= (p42 3) 6))
     (is (= (p42 5) 120))
     (is (= (p42 8) 40320))))
+
+(deftest p71test
+  (testing "p71"
+    (is (= (p71 (sort (rest (reverse [2 5 4 1 3 6]))))
+           (-> [2 5 4 1 3 6] (reverse) (rest) (sort) (p71))
+           5))))
