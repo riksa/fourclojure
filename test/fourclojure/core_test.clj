@@ -163,3 +163,9 @@
     (is (= (apply str (p40 ", " ["one" "two" "three"])) "one, two, three"))
     (is (= (p40 :z [:a :b :c :d]) [:a :z :b :z :c :z :d]))
     ))
+
+(deftest p41test
+  (testing "p41"
+    (is (= (p41 [1 2 3 4 5 6 7 8] 3) [1 2 4 5 7 8]))
+    (is (= (p41 [:a :b :c :d :e :f] 2) [:a :c :e]))
+    (is (= (p41 [1 2 3 4 5 6] 4) [1 2 3 5 6]))))

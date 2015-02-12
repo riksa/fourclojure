@@ -76,3 +76,8 @@
   "Write a function which separates the items of a sequence by an arbitrary value."
   ([v s] (loop [r [] s1 s]
            (if (empty? s1) (drop-last r) (recur (conj r (first s1) v) (rest s1))))))
+
+(defn p41
+  "Write a function which drops every Nth item from a sequence."
+  ([s n] (loop [r [] s s]
+           (if (empty? s) r (recur (concat r (take (dec n) s)) (drop n s))))))
