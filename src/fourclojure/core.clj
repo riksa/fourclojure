@@ -93,3 +93,7 @@
 (defn p19
   "Write a function which returns the last element in a sequence."
   ([s] (-> s reverse first)))
+
+(defn p49
+  "Write a function which will split a sequence into two parts."
+  ([n s] [(take n s) (drop n s)]))
