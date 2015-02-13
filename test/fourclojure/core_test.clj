@@ -207,3 +207,10 @@
     (is (= (p66 10 5) 5))
     (is (= (p66 5 7) 1))
     (is (= (p66 1023 858) 33))))
+
+(deftest p166test
+  (testing "p166"
+    (is (= :gt (p166 < 5 1)))
+    (is (= :eq (p166 (fn [x y] (< (count x) (count y))) "pear" "plum")))
+    (is (= :lt (p166 (fn [x y] (< (mod x 5) (mod y 5))) 21 3)))
+    (is (= :gt (p166 > 0 2)))))
