@@ -200,3 +200,10 @@
     (is (= (p61 [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3}))
     (is (= (p61 [1 2 3 4] ["one" "two" "three"]) {1 "one", 2 "two", 3 "three"}))
     (is (= (p61 [:foo :bar] ["foo" "bar" "baz"]) {:foo "foo", :bar "bar"}))))
+
+(deftest p66test
+  (testing "p66"
+    (is (= (p66 2 4) 2))
+    (is (= (p66 10 5) 5))
+    (is (= (p66 5 7) 1))
+    (is (= (p66 1023 858) 33))))

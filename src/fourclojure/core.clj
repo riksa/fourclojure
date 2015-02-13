@@ -103,3 +103,7 @@
   ([k v] (loop [s {} k k v v]
            (if (or (empty? v) (empty? k)) s
              (recur (assoc s (first k) (first v)) (rest k) (rest v))))))
+
+(defn p66
+  "Given two integers, write a function which returns the greatest common divisor."
+  ([a b] (some #(if (and (= 0 (mod a %)) (= 0 (mod b %))) %) (iterate dec (min a b)))))
