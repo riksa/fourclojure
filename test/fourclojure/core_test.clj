@@ -194,3 +194,9 @@
     (is (= (p49 3 [1 2 3 4 5 6]) [[1 2 3] [4 5 6]]))
     (is (= (p49 1 [:a :b :c :d]) [[:a] [:b :c :d]]))
     (is (= (p49 2 [[1 2] [3 4] [5 6]]) [[[1 2] [3 4]] [[5 6]]]))))
+
+(deftest p61test
+  (testing "p61"
+    (is (= (p61 [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3}))
+    (is (= (p61 [1 2 3 4] ["one" "two" "three"]) {1 "one", 2 "two", 3 "three"}))
+    (is (= (p61 [:foo :bar] ["foo" "bar" "baz"]) {:foo "foo", :bar "bar"}))))

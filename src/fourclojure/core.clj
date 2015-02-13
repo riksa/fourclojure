@@ -97,3 +97,9 @@
 (defn p49
   "Write a function which will split a sequence into two parts."
   ([n s] [(take n s) (drop n s)]))
+
+(defn p61
+  "Write a function which takes a vector of keys and a vector of values and constructs a map from them."
+  ([k v] (loop [s {} k k v v]
+           (if (or (empty? v) (empty? k)) s
+             (recur (assoc s (first k) (first v)) (rest k) (rest v))))))
