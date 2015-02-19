@@ -214,3 +214,9 @@
     (is (= :eq (p166 (fn [x y] (< (count x) (count y))) "pear" "plum")))
     (is (= :lt (p166 (fn [x y] (< (mod x 5) (mod y 5))) 21 3)))
     (is (= :gt (p166 > 0 2)))))
+
+(deftest p81test
+  (testing "p81"
+    (is (= (p81 #{0 1 2 3} #{2 3 4 5}) #{2 3}))
+    (is (= (p81 #{0 1 2} #{3 4 5}) #{}))
+    (is (= (p81 #{:a :b :c :d} #{:c :e :a :f :d}) #{:a :c :d}))))

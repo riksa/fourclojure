@@ -12,11 +12,11 @@
   "Write a function which returns the first X fibonacci numbers."
   ([x] (p26 [1 1] x))
   ([s x]
-    (loop [seq s num x]
-      (if (< num 3) seq
-                    (recur (conj seq (reduce + (take-last 2 seq))) (- num 1))
+   (loop [seq s num x]
+     (if (< num 3) seq
+                   (recur (conj seq (reduce + (take-last 2 seq))) (- num 1))
 
-                    ))))
+                   ))))
 
 ;You tripped the alarm! def is bad!
 ;replace "(defn" with "(fn" and remove docline "..."
@@ -102,7 +102,7 @@
   "Write a function which takes a vector of keys and a vector of values and constructs a map from them."
   ([k v] (loop [s {} k k v v]
            (if (or (empty? v) (empty? k)) s
-             (recur (assoc s (first k) (first v)) (rest k) (rest v))))))
+                                          (recur (assoc s (first k) (first v)) (rest k) (rest v))))))
 
 (defn p66
   "Given two integers, write a function which returns the greatest common divisor."
@@ -114,3 +114,7 @@ x = y → :eq
 x > y → :gt
 x < y → :lt"
   ([o a b] (if (o a b) :lt (if (o b a) :gt :eq))))
+
+(defn p81
+  "Write a function which returns the intersection of two sets. The intersection is the sub-set of items that each set has in common."
+  ([s1 s2] (set (filter #(some #{%} s2) s1))))
