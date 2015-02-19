@@ -118,3 +118,7 @@ x < y → :lt"
 (defn p81
   "Write a function which returns the intersection of two sets. The intersection is the sub-set of items that each set has in common."
   ([s1 s2] (set (filter #(some #{%} s2) s1))))
+
+(defn p134
+  "Write a function which, given a key and map, returns true iff the map contains an entry with that key and its value is nil."
+  ([k s] (and (contains? s k) (nil? (k s)))))
