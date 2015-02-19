@@ -122,3 +122,9 @@ x < y → :lt"
 (defn p134
   "Write a function which, given a key and map, returns true iff the map contains an entry with that key and its value is nil."
   ([k s] (and (contains? s k) (nil? (k s)))))
+
+(defn p156
+  "When retrieving values from a map, you can specify default values in case the key is not found:
+(= 2 (:foo {:bar 0, :baz 1} 2))
+However, what if you want the map itself to contain the default values? Write a function which takes a default value and a sequence of keys and constructs a map."
+  ([default keys] (reduce #(assoc %1 %2 default) {} keys)))

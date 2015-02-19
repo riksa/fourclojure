@@ -220,8 +220,15 @@
     (is (= (p81 #{0 1 2 3} #{2 3 4 5}) #{2 3}))
     (is (= (p81 #{0 1 2} #{3 4 5}) #{}))
     (is (= (p81 #{:a :b :c :d} #{:c :e :a :f :d}) #{:a :c :d}))))
+
 (deftest p134test
   (testing "p134"
     (is (true?  (p134 :a {:a nil :b 2})))
     (is (false? (p134 :b {:a nil :b 2})))
     (is (false? (p134 :c {:a nil :b 2})))))
+
+(deftest p156test
+  (testing "p156"
+    (is (= (p156 0 [:a :b :c]) {:a 0 :b 0 :c 0}))
+    (is (= (p156 "x" [1 2 3]) {1 "x" 2 "x" 3 "x"}))
+    (is (= (p156 [:a :b] [:foo :bar]) {:foo [:a :b] :bar [:a :b]}))))
