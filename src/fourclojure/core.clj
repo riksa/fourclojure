@@ -138,3 +138,11 @@ However, what if you want the map itself to contain the default values? Write a 
 
 It can be hard to follow in the (abstract, so let's build a simple closure. Given a positive integer n, return a function (f x) which computes xn. Observe that the effect of this is to preserve the value of n for use outside the scope in which it is defined."
   [n] #(int (Math/pow % n)))
+
+
+(defn p99
+  "Write a function which multiplies two numbers and returns the result as a sequence of its digits."
+  ([n] (loop [r '() n n]
+         (let [mod (mod n 10) rem (- n mod)]
+           (if (and (= 0 mod) (= 0 rem)) r (recur (conj r mod) (/ rem 10))))))
+  ([a b] (p99 (* a b))))
