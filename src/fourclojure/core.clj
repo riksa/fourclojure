@@ -128,3 +128,7 @@ x < y → :lt"
 (= 2 (:foo {:bar 0, :baz 1} 2))
 However, what if you want the map itself to contain the default values? Write a function which takes a default value and a sequence of keys and constructs a map."
   ([default keys] (reduce #(assoc %1 %2 default) {} keys)))
+
+(defn p62
+  "Given a side-effect free function f and an initial value x write a function which returns an infinite lazy sequence of x, (f x), (f (f x)), (f (f (f x))), etc."
+  ([f x] (cons x (lazy-seq (p62 f (f x))))))

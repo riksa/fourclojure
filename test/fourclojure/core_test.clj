@@ -232,3 +232,9 @@
     (is (= (p156 0 [:a :b :c]) {:a 0 :b 0 :c 0}))
     (is (= (p156 "x" [1 2 3]) {1 "x" 2 "x" 3 "x"}))
     (is (= (p156 [:a :b] [:foo :bar]) {:foo [:a :b] :bar [:a :b]}))))
+
+(deftest p62test
+  (testing "p62"
+    (is (= (take 5 (p62 #(* 2 %) 1)) [1 2 4 8 16]))
+    (is (= (take 100 (p62 inc 0)) (take 100 (range))))
+    (is (= (take 9 (p62 #(inc (mod % 3)) 1)) (take 9 (cycle [1 2 3]))))))
