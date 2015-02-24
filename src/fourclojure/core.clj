@@ -132,3 +132,9 @@ However, what if you want the map itself to contain the default values? Write a 
 (defn p62
   "Given a side-effect free function f and an initial value x write a function which returns an infinite lazy sequence of x, (f x), (f (f x)), (f (f (f x))), etc."
   ([f x] (cons x (lazy-seq (p62 f (f x))))))
+
+(defn p107
+  "Lexical scope and first-class functions are two of the most basic building blocks of a functional language like Clojure. When you combine the two together, you get something very powerful called lexical closures. With these, you can exercise a great deal of control over the lifetime of your local bindings, saving their values for use later, long after the code you're running now has finished.
+
+It can be hard to follow in the (abstract, so let's build a simple closure. Given a positive integer n, return a function (f x) which computes xn. Observe that the effect of this is to preserve the value of n for use outside the scope in which it is defined."
+  [n] #(int (Math/pow % n)))
