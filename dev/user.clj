@@ -1,4 +1,5 @@
 (ns user
+  (:require [vinyasa.lein :as lein])
   (:require [clojure.tools.namespace.repl :refer [refresh]])
   (:require [fourclojure.core :refer :all]))
 
@@ -10,13 +11,21 @@
 (defn start
   "Start the application"
   []
-  nil)
+  (println "Starting"))
 
 (defn stop
   "Stop the application"
   []
-  nil)
+  (println "Stopping"))
 
 (defn reset []
   (stop)
   (refresh :after 'user/start))
+
+(defn leintest []
+  (lein/lein test))
+
+(defn retest []
+  (stop)
+  (refresh :after 'user/leintest)
+  1)
