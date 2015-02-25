@@ -150,3 +150,9 @@ It can be hard to follow in the (abstract, so let's build a simple closure. Give
 (defn p46
   "Write a higher-order function which flips the order of the arguments of an input function."
   ([f] #(f %2 %1)))
+
+(defn p90
+  "Write a function which calculates the Cartesian product of two sets."
+  ([s1 s2] (into #{} (apply concat (map
+             (fn [a]
+               (map #(vec [%1 a]) s1)) s2)))))
