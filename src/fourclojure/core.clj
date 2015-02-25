@@ -146,3 +146,7 @@ It can be hard to follow in the (abstract, so let's build a simple closure. Give
          (let [mod (mod n 10) rem (- n mod)]
            (if (and (= 0 mod) (= 0 rem)) r (recur (conj r mod) (/ rem 10))))))
   ([a b] (p99 (* a b))))
+
+(defn p46
+  "Write a higher-order function which flips the order of the arguments of an input function."
+  ([f] #(f %2 %1)))
