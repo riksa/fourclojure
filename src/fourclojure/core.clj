@@ -171,3 +171,7 @@ It can be hard to follow in the (abstract, so let's build a simple closure. Give
 (defn p143
   "Create a function that computes the dot product of two sequences. You may assume that the vectors will have the same length."
   ([s1 s2] (reduce + (map * s1 s2))))
+
+(defn p44
+  "Write a function which can rotate a sequence in either direction."
+  ([o s] (let [o (mod o (count s))] (concat (drop o s) (take o s)))))
