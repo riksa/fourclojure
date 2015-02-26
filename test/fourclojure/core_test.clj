@@ -302,3 +302,27 @@
     (is (= (p44 6 [1 2 3 4 5]) '(2 3 4 5 1)))
     (is (= (p44 1 '(:a :b :c)) '(:b :c :a)))
     (is (= (p44 -4 '(:a :b :c)) '(:c :a :b)))))
+
+(deftest p73test
+  (testing "p73"
+    (is (= nil (p73 [[:e :e :e]
+                    [:e :e :e]
+                    [:e :e :e]])))
+    (is (= :x (p73 [[:x :e :o]
+                   [:x :e :e]
+                   [:x :e :o]])))
+    (is (= :o (p73 [[:e :x :e]
+                   [:o :o :o]
+                   [:x :e :x]])))
+    (is (= nil (p73 [[:x :e :o]
+                    [:x :x :e]
+                    [:o :x :o]])))
+    (is (= :x (p73 [[:x :e :e]
+                   [:o :x :e]
+                   [:o :e :x]])))
+    (is (= :o (p73 [[:x :e :o]
+                   [:x :o :e]
+                   [:o :e :x]])))
+    (is (= nil (p73 [[:x :o :x]
+                    [:x :o :x]
+                    [:o :x :o]])))))
