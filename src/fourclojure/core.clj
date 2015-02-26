@@ -154,10 +154,16 @@ It can be hard to follow in the (abstract, so let's build a simple closure. Give
 (defn p90
   "Write a function which calculates the Cartesian product of two sets."
   ([s1 s2] (into #{} (apply concat (map
-             (fn [a]
-               (map #(vec [%1 a]) s1)) s2)))))
+                                     (fn [a]
+                                       (map #(vec [%1 a]) s1)) s2)))))
 
 ;#spy/p
 (defn p122
   "Convert a binary number, provided in the form of a string, to its numerical value."
   ([s] (reduce + (map #(if (= '\1 %1) %2 0) (reverse s) (iterate (partial * 2) 1)))))
+
+(defn p63
+  "Given a function f and a sequence s, write a function which returns a map. The keys should be the values of f applied to each item in s. The value at each key should be a vector of corresponding items in the order they appear in s."
+  ([f s] (reduce
+           #(let [k (f %2) v %2 c (or (%1 k) [])]
+             (assoc %1 k (conj c v))) {} s)))
