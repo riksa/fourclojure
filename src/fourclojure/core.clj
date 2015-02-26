@@ -156,3 +156,8 @@ It can be hard to follow in the (abstract, so let's build a simple closure. Give
   ([s1 s2] (into #{} (apply concat (map
              (fn [a]
                (map #(vec [%1 a]) s1)) s2)))))
+
+;#spy/p
+(defn p122
+  "Convert a binary number, provided in the form of a string, to its numerical value."
+  ([s] (reduce + (map #(if (= '\1 %1) %2 0) (reverse s) (iterate (partial * 2) 1)))))
