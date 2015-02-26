@@ -167,3 +167,7 @@ It can be hard to follow in the (abstract, so let's build a simple closure. Give
   ([f s] (reduce
            #(let [k (f %2) v %2 c (or (%1 k) [])]
              (assoc %1 k (conj c v))) {} s)))
+
+(defn p143
+  "Create a function that computes the dot product of two sequences. You may assume that the vectors will have the same length."
+  ([s1 s2] (reduce + (map * s1 s2))))
