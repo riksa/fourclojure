@@ -179,15 +179,9 @@ It can be hard to follow in the (abstract, so let's build a simple closure. Give
 (defn p73
   "A tic-tac-toe board is represented by a two dimensional vector. X is represented by :x, O is represented by :o, and empty is represented by :e. A player wins by placing three Xs or three Os in a horizontal, vertical, or diagonal row. Write a function which analyzes a tic-tac-toe board and returns :x if X has won, :o if O has won, and nil if neither player has won."
   ([b] (letfn [(winner [coll] (let [s (set coll)] (if (= 1 (count s)) (some #{:o :x} s))))]
-         (some #{:x :o} (set (concat (map winner b) (map winner (apply map vector b))))))))
-
-
-         #_(defn winner [coll] (let [s (set coll)] (if (= 1 (count s)) (some #{:o :x} s))))
-
-#_(def boardx [[:x :e :o]
-             [:x :e :e]
-             [:x :e :o]])
-
-#_(def boardo [[:e :x :e]
-             [:o :o :o]
-             [:x :e :x]])
+         (some #{:x :o} (set (concat
+                               (map winner b)
+                               (map winner (apply map vector b))
+                               [(winner (map #(%1 %2) b (iterate dec 2)))
+                                (winner (map #(%1 %2) b (iterate inc 0)))]
+                               ))))))
