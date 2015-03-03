@@ -220,3 +220,67 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
             (reduce #(let [o (if (< %2 (or (:last %1) 0)) - +)]
                       (hash-map :sum (o (or (:sum %1) 0) %2) :last %2)) '{})
             :sum)))
+
+(defn p79
+  "Write a function which calculates the sum of the minimal path through a triangle. The triangle is represented as a
+  collection of vectors. The path should start at the top of the triangle and move to an adjacent number on the next row
+  until the bottom of the triangle is reached."
+  ([v] (reduce #() '() v)))
+
+; (0) (0 1) (1 2) (2 3)
+; (iterate #(vector (inc (first %1)) (inc (second %1))) [-1 0])
+
+(def p '([1]
+          [2 4]
+          [5 1 4]
+          [2 3 4 5]))
+
+(def v1 (first p))
+(def v2 (second p))
+(def v3 (nth p 2))
+(def v4 (nth p 3))
+
+(def indexes (iterate #(vector (inc (first %1)) (inc (second %1))) [-1 0]))
+
+(defn splitter
+  ([v1 v2] (let [indexes (iterate #(vector (inc (first %1)) (inc (second %1))) [-1 0])]
+         ())))
+
+(defn combiner
+  ([c v]
+   (into [] (flatten
+              (filter #(not (some nil? %))
+                      (let [o1 (conj c [nil]) o2 (into [[nil]] c) _ #spy/p o1 _ #spy/p o2 _ #spy/p v] (for [i (range (count v))] (vector (into (nth o1 i) v) (into (nth o2 i) v))))
+                      )
+                 )
+
+;   (concat #spy/p(map #(conj %2 %1) v (conj c [nil])) #spy/p(map #(conj %2 %1) v (into [[nil]] c)) ))
+;           )
+    )))
+
+(defn combiner
+  ([c v] (let [cyc (cycle (into [[nil]] c))]
+           (for [i (range (count v))] (vector (conj (nth cyc i) (nth v i)) (conj (nth cyc (inc i)) (nth v i)))))
+                      ))
+
+
+;(reduce combiner (vector (first v)) (rest v))
+
+
+(apply min (map #(reduce + (flatten %)) (combiner (combiner (combiner (vector (map vector v1)) v2) v3) v4)))
+
+;1
+
+;1 1
+;2 4
+
+;1 1 1 1
+;2 2 4 4
+;5 1 1 4
+
+; (filter #(not (some nil? %)) (concat (map vector v3 (conj v2 nil)) (map vector v3 (into [nil] v2))))
+
+;5 5 1 1 1 1 4 4
+;2 3 3 4 3 4 4 5
+; take a row
+;
