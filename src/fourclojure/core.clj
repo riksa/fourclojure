@@ -242,16 +242,39 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
            [4 6 6 7 8]
            [5 7 3 5 1 4]))
 
+(def c (map vector (first (reverse p2))))
+(def r1 (second (reverse p2)))
+(def r2 (nth (reverse p2) 2))
+
+(defn neighbors
+  ([i] (let [y (inc (:y i)) x1 (:x i) x2 (inc (:x i))] (vector {:x x1 :y y} {:x x2 :y y} ))))
+
+(def paths [{:root {:x 0 :y 0}}])
+
+(defn expand-paths
+  ([paths] (apply concat (map #(let [path (:path %1)
+                        root (:root %1)
+                        n1 (first (neighbors root))
+                        n2 (second (neighbors root))]
+                   (vector
+                  (hash-map
+                    :path (conj path root)
+                    :root n1)
+                  (hash-map
+                    :path (conj path root)
+                    :root n2)))
+                paths))))
+
 (defn combiner
   ([c v] (into []
-               (filter #(not (some nil? %))
                (apply concat
-                 (let [cyc (cycle (into [[nil]] c))]
-                   (for [i (range (count v))] (vector (conj (nth cyc i) (nth v i)) (conj (nth cyc (inc i)) (nth v i)))))
-                 )))))
+                 (let [cyc (cycle (into [nil] v))]
+                   (for [i (range (count c))] (vector (conj (nth c i) (nth cyc i)) (conj (nth c i) (nth cyc (inc i))))))
+                 ))))
+
 
 (defn reducer
-  ([p] (apply min (map #(reduce + %) (reduce combiner (vector (first p)) (rest p)))) ))
+  ([p] (apply min (map #(reduce + %) (reduce combiner (vector (first (reverse p))) (rest (reverse p))))) ))
 
 (defn p79
   ([p] (reducer p)))
