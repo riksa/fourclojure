@@ -43,7 +43,8 @@
   ([s] (p31 [] s))
   ([r s] (loop [resp r seq s]
            (if (empty? seq) resp
-                            (recur (conj resp (first (split-with (partial = (first seq)) seq))) (last (split-with (partial = (first seq)) seq)))))))
+                            (recur (conj resp (first (split-with (partial = (first seq)) seq)))
+                                   (last (split-with (partial = (first seq)) seq)))))))
 
 (defn p32
   "Write a function which duplicates each element of a sequence."
@@ -68,7 +69,8 @@
   ([& rest] (reduce #(if (> %1 %2) %1 %2) rest)))
 
 (defn p39
-  "Write a function which takes two sequences and returns the first item from each, then the second item from each, then the third, etc."
+  "Write a function which takes two sequences and returns the first item from each, then the second item from each, then
+  the third, etc."
   ([s1 s2] (loop [r [] s1 s1 s2 s2]
              (if (or (empty? s1) (empty? s2)) r (recur (conj r (first s1) (first s2)) (rest s1) (rest s2))))))
 
@@ -87,7 +89,10 @@
   ([n] (reduce * (take n (iterate inc 1)))))
 
 (defn p71
-  "The -> macro threads an expression x through a variable number of forms. First, x is inserted as the second item in the first form, making a list of it if it is not a list already. Then the first form is inserted as the second item in the second form, making a list of that form if necessary. This process continues for all the forms. Using -> can sometimes make your code more readable"
+  "The -> macro threads an expression x through a variable number of forms. First, x is inserted as the second item in
+  the first form, making a list of it if it is not a list already. Then the first form is inserted as the second item in
+  the second form, making a list of that form if necessary. This process continues for all the forms. Using -> can
+  sometimes make your code more readable"
   ([s] (last s)))
 
 (defn p19
@@ -109,34 +114,46 @@
   ([a b] (some #(if (and (= 0 (mod a %)) (= 0 (mod b %))) %) (iterate dec (min a b)))))
 
 (defn p166
-  "For any orderable data type it's possible to derive all of the basic comparison operations (<, ≤, =, ≠, ≥, and >) from a single operation (any operator but = or ≠ will work). Write a function that takes three arguments, a less than operator for the data and two items to compare. The function should return a keyword describing the relationship between the two items. The keywords for the relationship between x and y are as follows:
+  "For any orderable data type it's possible to derive all of the basic comparison operations (<, ≤, =, ≠, ≥, and >)
+  from a single operation (any operator but = or ≠ will work). Write a function that takes three arguments, a less than
+  operator for the data and two items to compare. The function should return a keyword describing the relationship
+  between the two items. The keywords for the relationship between x and y are as follows:
 x = y → :eq
 x > y → :gt
 x < y → :lt"
   ([o a b] (if (o a b) :lt (if (o b a) :gt :eq))))
 
 (defn p81
-  "Write a function which returns the intersection of two sets. The intersection is the sub-set of items that each set has in common."
+  "Write a function which returns the intersection of two sets. The intersection is the sub-set of items that each set
+  has in common."
   ([s1 s2] (set (filter #(some #{%} s2) s1))))
 
 (defn p134
-  "Write a function which, given a key and map, returns true iff the map contains an entry with that key and its value is nil."
+  "Write a function which, given a key and map, returns true iff the map contains an entry with that key and its value
+  is nil."
   ([k s] (and (contains? s k) (nil? (k s)))))
 
 (defn p156
   "When retrieving values from a map, you can specify default values in case the key is not found:
 (= 2 (:foo {:bar 0, :baz 1} 2))
-However, what if you want the map itself to contain the default values? Write a function which takes a default value and a sequence of keys and constructs a map."
+However, what if you want the map itself to contain the default values? Write a function which takes a default value and
+ a sequence of keys and constructs a map."
   ([default keys] (reduce #(assoc %1 %2 default) {} keys)))
 
 (defn p62
-  "Given a side-effect free function f and an initial value x write a function which returns an infinite lazy sequence of x, (f x), (f (f x)), (f (f (f x))), etc."
+  "Given a side-effect free function f and an initial value x write a function which returns an infinite lazy sequence
+  of x, (f x), (f (f x)), (f (f (f x))), etc."
   ([f x] (cons x (lazy-seq (p62 f (f x))))))
 
 (defn p107
-  "Lexical scope and first-class functions are two of the most basic building blocks of a functional language like Clojure. When you combine the two together, you get something very powerful called lexical closures. With these, you can exercise a great deal of control over the lifetime of your local bindings, saving their values for use later, long after the code you're running now has finished.
+  "Lexical scope and first-class functions are two of the most basic building blocks of a functional language like
+  Clojure. When you combine the two together, you get something very powerful called lexical closures. With these, you
+  can exercise a great deal of control over the lifetime of your local bindings, saving their values for use later, long
+  after the code you're running now has finished.
 
-It can be hard to follow in the (abstract, so let's build a simple closure. Given a positive integer n, return a function (f x) which computes xn. Observe that the effect of this is to preserve the value of n for use outside the scope in which it is defined."
+It can be hard to follow in the (abstract, so let's build a simple closure. Given a positive integer n, return a
+function (f x) which computes xn. Observe that the effect of this is to preserve the value of n for use outside the
+scope in which it is defined."
   [n] #(int (Math/pow % n)))
 
 
@@ -163,13 +180,15 @@ It can be hard to follow in the (abstract, so let's build a simple closure. Give
   ([s] (reduce + (map #(if (= '\1 %1) %2 0) (reverse s) (iterate (partial * 2) 1)))))
 
 (defn p63
-  "Given a function f and a sequence s, write a function which returns a map. The keys should be the values of f applied to each item in s. The value at each key should be a vector of corresponding items in the order they appear in s."
+  "Given a function f and a sequence s, write a function which returns a map. The keys should be the values of f applied
+   to each item in s. The value at each key should be a vector of corresponding items in the order they appear in s."
   ([f s] (reduce
            #(let [k (f %2) v %2 c (or (%1 k) [])]
              (assoc %1 k (conj c v))) {} s)))
 
 (defn p143
-  "Create a function that computes the dot product of two sequences. You may assume that the vectors will have the same length."
+  "Create a function that computes the dot product of two sequences. You may assume that the vectors will have the same
+  length."
   ([s1 s2] (reduce + (map * s1 s2))))
 
 (defn p44
@@ -177,7 +196,10 @@ It can be hard to follow in the (abstract, so let's build a simple closure. Give
   ([o s] (let [o (mod o (count s))] (concat (drop o s) (take o s)))))
 
 (defn p73
-  "A tic-tac-toe board is represented by a two dimensional vector. X is represented by :x, O is represented by :o, and empty is represented by :e. A player wins by placing three Xs or three Os in a horizontal, vertical, or diagonal row. Write a function which analyzes a tic-tac-toe board and returns :x if X has won, :o if O has won, and nil if neither player has won."
+  "A tic-tac-toe board is represented by a two dimensional vector. X is represented by :x, O is represented by :o, and
+  empty is represented by :e. A player wins by placing three Xs or three Os in a horizontal, vertical, or diagonal row.
+  Write a function which analyzes a tic-tac-toe board and returns :x if X has won, :o if O has won, and nil if neither
+  player has won."
   ([b] (letfn [(w [c] (let [s (set c)] (if (= 1 (count s)) (some #{:o :x} s))))]
          (some #{:x :o} (set (map w (concat
                                            b
@@ -187,11 +209,14 @@ It can be hard to follow in the (abstract, so let's build a simple closure. Give
                                            )))))))
 
 (defn p92
-  "Roman numerals are easy to recognize, but not everyone knows all the rules necessary to work with them. Write a function to parse a Roman-numeral string and return the number it represents.
+  "Roman numerals are easy to recognize, but not everyone knows all the rules necessary to work with them. Write a
+  function to parse a Roman-numeral string and return the number it represents.
 
-You can assume that the input will be well-formed, in upper-case, and follow the subtractive principle. You don't need to handle any numbers greater than MMMCMXCIX (3999), the largest number representable with ordinary letters."
+You can assume that the input will be well-formed, in upper-case, and follow the subtractive principle. You don't need
+to handle any numbers greater than MMMCMXCIX (3999), the largest number representable with ordinary letters."
   ([s] (->> s
             reverse
             (map {'\M 1000 '\D 500 '\C 100 '\L 50 '\X 10 '\V 5 '\I 1})
-            (reduce #(let [o (if (< %2 (or (:last %1) -100000)) - +)] (hash-map :sum (o (or (:sum %1) 0) %2) :last %2)) '{})
+            (reduce #(let [o (if (< %2 (or (:last %1) -100000)) - +)]
+                      (hash-map :sum (o (or (:sum %1) 0) %2) :last %2)) '{})
             :sum)))
