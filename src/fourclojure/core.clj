@@ -217,6 +217,6 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
   ([s] (->> s
             reverse
             (map {'\M 1000 '\D 500 '\C 100 '\L 50 '\X 10 '\V 5 '\I 1})
-            (reduce #(let [o (if (< %2 (or (:last %1) -100000)) - +)]
+            (reduce #(let [o (if (< %2 (or (:last %1) 0)) - +)]
                       (hash-map :sum (o (or (:sum %1) 0) %2) :last %2)) '{})
             :sum)))
