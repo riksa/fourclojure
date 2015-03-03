@@ -259,15 +259,20 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
     )))
 
 (defn combiner
-  ([c v] (let [cyc (cycle (into [[nil]] c))]
-           (for [i (range (count v))] (vector (conj (nth cyc i) (nth v i)) (conj (nth cyc (inc i)) (nth v i)))))
-                      ))
+  ([c v] (into []
+               (filter #(not (some nil? %))
+               (apply concat
+                 (let [cyc (cycle (into [[nil]] c))]
+                   (for [i (range (count v))] (vector (conj (nth cyc i) (nth v i)) (conj (nth cyc (inc i)) (nth v i)))))
+                 )     ))))
+
+(defn reducer
+  ([p] (apply min (map #(reduce + %) (reduce combiner (vector (first p)) (rest p)))) ))
+
+;(reduce combiner (vector (first p)) (rest p))
 
 
-;(reduce combiner (vector (first v)) (rest v))
-
-
-(apply min (map #(reduce + (flatten %)) (combiner (combiner (combiner (vector (map vector v1)) v2) v3) v4)))
+;(apply min (map #(reduce + (flatten %)) (combiner (combiner (combiner (vector (map vector v1)) v2) v3) v4)))
 
 ;1
 
