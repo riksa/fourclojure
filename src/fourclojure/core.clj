@@ -190,4 +190,4 @@ It can be hard to follow in the (abstract, so let's build a simple closure. Give
   "Roman numerals are easy to recognize, but not everyone knows all the rules necessary to work with them. Write a function to parse a Roman-numeral string and return the number it represents.
 
 You can assume that the input will be well-formed, in upper-case, and follow the subtractive principle. You don't need to handle any numbers greater than MMMCMXCIX (3999), the largest number representable with ordinary letters."
-  ([s] (map {'\M 1000 '\D 500 '\C 100 '\L 50 '\X 10 '\V 5 '\I 1} s)))
+  ([s] (reduce #(hash-map :sum (+ %2 (or (:sum %1) 0)) :last %2) '{} (map {'\M 1000 '\D 500 '\C 100 '\L 50 '\X 10 '\V 5 '\I 1} (reverse s)))))
