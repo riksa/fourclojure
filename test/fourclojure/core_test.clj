@@ -326,3 +326,10 @@
     (is (= nil (p73 [[:x :o :x]
                     [:x :o :x]
                     [:o :x :o]])))))
+
+(deftest p92test
+  (testing "p92"
+    (is (= 14 (p92 "XIV")))
+    (is (= 827 (p92 "DCCCXXVII")))
+    (is (= 3999 (p92 "MMMCMXCIX")))
+    (is (= 48 (p92 "XLVIII")))))

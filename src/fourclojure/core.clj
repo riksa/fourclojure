@@ -185,3 +185,9 @@ It can be hard to follow in the (abstract, so let's build a simple closure. Give
                                            [(map #(%1 %2) b (iterate dec 2))
                                             (map #(%1 %2) b (iterate inc 0))]
                                            )))))))
+
+(defn p92
+  "Roman numerals are easy to recognize, but not everyone knows all the rules necessary to work with them. Write a function to parse a Roman-numeral string and return the number it represents.
+
+You can assume that the input will be well-formed, in upper-case, and follow the subtractive principle. You don't need to handle any numbers greater than MMMCMXCIX (3999), the largest number representable with ordinary letters."
+  ([s] nil))
