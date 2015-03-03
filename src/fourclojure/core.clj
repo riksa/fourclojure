@@ -230,33 +230,17 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
 ; (0) (0 1) (1 2) (2 3)
 ; (iterate #(vector (inc (first %1)) (inc (second %1))) [-1 0])
 
-(def p '([1]
-          [2 4]
-          [5 1 4]
-          [2 3 4 5]))
+(def p1 '([1]
+           [2 4]
+           [5 1 4]
+           [2 3 4 5]))
 
-(def v1 (first p))
-(def v2 (second p))
-(def v3 (nth p 2))
-(def v4 (nth p 3))
-
-(def indexes (iterate #(vector (inc (first %1)) (inc (second %1))) [-1 0]))
-
-(defn splitter
-  ([v1 v2] (let [indexes (iterate #(vector (inc (first %1)) (inc (second %1))) [-1 0])]
-         ())))
-
-(defn combiner
-  ([c v]
-   (into [] (flatten
-              (filter #(not (some nil? %))
-                      (let [o1 (conj c [nil]) o2 (into [[nil]] c) _ #spy/p o1 _ #spy/p o2 _ #spy/p v] (for [i (range (count v))] (vector (into (nth o1 i) v) (into (nth o2 i) v))))
-                      )
-                 )
-
-;   (concat #spy/p(map #(conj %2 %1) v (conj c [nil])) #spy/p(map #(conj %2 %1) v (into [[nil]] c)) ))
-;           )
-    )))
+(def p2 '([3]
+           [2 4]
+           [1 9 3]
+           [9 9 2 4]
+           [4 6 6 7 8]
+           [5 7 3 5 1 4]))
 
 (defn combiner
   ([c v] (into []
@@ -264,10 +248,13 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
                (apply concat
                  (let [cyc (cycle (into [[nil]] c))]
                    (for [i (range (count v))] (vector (conj (nth cyc i) (nth v i)) (conj (nth cyc (inc i)) (nth v i)))))
-                 )     ))))
+                 )))))
 
 (defn reducer
   ([p] (apply min (map #(reduce + %) (reduce combiner (vector (first p)) (rest p)))) ))
+
+(defn p79
+  ([p] (reducer p)))
 
 ;(reduce combiner (vector (first p)) (rest p))
 
