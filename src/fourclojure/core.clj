@@ -228,10 +228,10 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
   ([p] (apply min (map :sum (reduce
                               (fn [l v]
                                 (apply concat (map
-                                                #(let [i (:index %1) s (:sum %1)]
+                                                #(let [i (:index %1) n (inc i) s (:sum %1)]
                                                   (vector
                                                     (hash-map :index i :sum (+ (nth v i) s))
-                                                    (hash-map :index (inc i) :sum (+ (nth v (inc i)) s))
+                                                    (hash-map :index n :sum (+ (nth v n) s))
                                                     )) l)))
-                              [{:index 0 :sum (first (first p))}]
+                              [{:index 0 :sum (-> p first first)}]
                               (rest p))))))
