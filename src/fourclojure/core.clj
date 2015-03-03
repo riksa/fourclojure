@@ -202,11 +202,11 @@ scope in which it is defined."
   player has won."
   ([b] (letfn [(w [c] (let [s (set c)] (if (= 1 (count s)) (some #{:o :x} s))))]
          (some #{:x :o} (set (map w (concat
-                                           b
-                                           (apply map vector b)
-                                           [(map #(%1 %2) b (iterate dec 2))
-                                            (map #(%1 %2) b (iterate inc 0))]
-                                           )))))))
+                                      b
+                                      (apply map vector b)
+                                      [(map #(%1 %2) b (iterate dec 2))
+                                       (map #(%1 %2) b (iterate inc 0))]
+                                      )))))))
 
 (defn p92
   "Roman numerals are easy to recognize, but not everyone knows all the rules necessary to work with them. Write a
@@ -247,38 +247,66 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
 (def r2 (nth (reverse p2) 2))
 
 (defn neighbors
-  ([i] (let [y (inc (:y i)) x1 (:x i) x2 (inc (:x i))] (vector {:x x1 :y y} {:x x2 :y y} ))))
+  ([i] (let [y (inc (:y i)) x1 (:x i) x2 (inc (:x i))] (vector {:x x1 :y y} {:x x2 :y y}))))
 
 (def paths [{:root {:x 0 :y 0}}])
 
 (defn expand-paths
-  ([paths] (apply concat (map #(let [path (:path %1)
-                        root (:root %1)
-                        n1 (first (neighbors root))
-                        n2 (second (neighbors root))]
-                   (vector
-                  (hash-map
-                    :path (conj path root)
-                    :root n1)
-                  (hash-map
-                    :path (conj path root)
-                    :root n2)))
-                paths))))
+  ([c] (expand-paths c [{:root {:x 0 :y 0}}]))
+  ([c paths] (loop [c c p [{:root {:x 0 :y 0}}]]
+               (if (zero? c) p (recur (dec c)
+                                      (apply concat (map #(let [path (:path %1)
+                                                                root (:root %1)
+                                                                n1 (first (neighbors root))
+                                                                n2 (second (neighbors root))]
+                                                           (vector
+                                                             (hash-map
+                                                               :path (conj path root)
+                                                               :root n1)
+                                                             (hash-map
+                                                               :path (conj path root)
+                                                               :root n2)))
+                                                         p)))))))
 
 (defn combiner
   ([c v] (into []
                (apply concat
-                 (let [cyc (cycle (into [nil] v))]
-                   (for [i (range (count c))] (vector (conj (nth c i) (nth cyc i)) (conj (nth c i) (nth cyc (inc i))))))
-                 ))))
+                      (let [cyc (cycle (into [nil] v))]
+                        (for [i (range (count c))] (vector (conj (nth c i) (nth cyc i)) (conj (nth c i) (nth cyc (inc i))))))
+                      ))))
 
 
 (defn reducer
-  ([p] (apply min (map #(reduce + %) (reduce combiner (vector (first (reverse p))) (rest (reverse p))))) ))
+  ([p] (apply min (map #(reduce + %) (reduce combiner (vector (first (reverse p))) (rest (reverse p)))))))
 
 (defn p79
-  ([p] (reducer p)))
+  ([p] (apply min (map :sum (reduce reducer
+               [{:index 0 :sum (first (first p))}]
+               (rest p))))))
 
+(defn reducer
+   ([l v]
+    (apply concat (map
+                    #(let [i (:index %1) s (:sum %1)] (vector
+                      (hash-map :index i :sum (+ (nth v i) s))
+                      (hash-map :index (inc i) :sum (+ (nth v (inc i)) s))
+                      )) l))))
+
+(p79 p1)
+
+
+
+(p79 (rest p1))
+
+#_(defn reducer
+  ([l v]
+   (apply concat (map
+                   #(vector
+                     (hash-map :index (:index %1) :sum (+ (nth v (:index %1) (:sum %1))))
+                     (hash-map :index (inc (:index %1)) :sum (+ (nth v (:index %1)) (:sum %1)))
+                     ) l))))
+
+(p79 p1)
 ;(reduce combiner (vector (first p)) (rest p))
 
 
