@@ -225,105 +225,13 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
   "Write a function which calculates the sum of the minimal path through a triangle. The triangle is represented as a
   collection of vectors. The path should start at the top of the triangle and move to an adjacent number on the next row
   until the bottom of the triangle is reached."
-  ([v] (reduce #() '() v)))
-
-; (0) (0 1) (1 2) (2 3)
-; (iterate #(vector (inc (first %1)) (inc (second %1))) [-1 0])
-
-(def p1 '([1]
-           [2 4]
-           [5 1 4]
-           [2 3 4 5]))
-
-(def p2 '([3]
-           [2 4]
-           [1 9 3]
-           [9 9 2 4]
-           [4 6 6 7 8]
-           [5 7 3 5 1 4]))
-
-(def c (map vector (first (reverse p2))))
-(def r1 (second (reverse p2)))
-(def r2 (nth (reverse p2) 2))
-
-(defn neighbors
-  ([i] (let [y (inc (:y i)) x1 (:x i) x2 (inc (:x i))] (vector {:x x1 :y y} {:x x2 :y y}))))
-
-(def paths [{:root {:x 0 :y 0}}])
-
-(defn expand-paths
-  ([c] (expand-paths c [{:root {:x 0 :y 0}}]))
-  ([c paths] (loop [c c p [{:root {:x 0 :y 0}}]]
-               (if (zero? c) p (recur (dec c)
-                                      (apply concat (map #(let [path (:path %1)
-                                                                root (:root %1)
-                                                                n1 (first (neighbors root))
-                                                                n2 (second (neighbors root))]
-                                                           (vector
-                                                             (hash-map
-                                                               :path (conj path root)
-                                                               :root n1)
-                                                             (hash-map
-                                                               :path (conj path root)
-                                                               :root n2)))
-                                                         p)))))))
-
-(defn combiner
-  ([c v] (into []
-               (apply concat
-                      (let [cyc (cycle (into [nil] v))]
-                        (for [i (range (count c))] (vector (conj (nth c i) (nth cyc i)) (conj (nth c i) (nth cyc (inc i))))))
-                      ))))
-
-
-(defn reducer
-  ([p] (apply min (map #(reduce + %) (reduce combiner (vector (first (reverse p))) (rest (reverse p)))))))
-
-(defn p79
-  ([p] (apply min (map :sum (reduce reducer
-               [{:index 0 :sum (first (first p))}]
-               (rest p))))))
-
-(defn reducer
-   ([l v]
-    (apply concat (map
-                    #(let [i (:index %1) s (:sum %1)] (vector
-                      (hash-map :index i :sum (+ (nth v i) s))
-                      (hash-map :index (inc i) :sum (+ (nth v (inc i)) s))
-                      )) l))))
-
-(p79 p1)
-
-
-
-(p79 (rest p1))
-
-#_(defn reducer
-  ([l v]
-   (apply concat (map
-                   #(vector
-                     (hash-map :index (:index %1) :sum (+ (nth v (:index %1) (:sum %1))))
-                     (hash-map :index (inc (:index %1)) :sum (+ (nth v (:index %1)) (:sum %1)))
-                     ) l))))
-
-(p79 p1)
-;(reduce combiner (vector (first p)) (rest p))
-
-
-;(apply min (map #(reduce + (flatten %)) (combiner (combiner (combiner (vector (map vector v1)) v2) v3) v4)))
-
-;1
-
-;1 1
-;2 4
-
-;1 1 1 1
-;2 2 4 4
-;5 1 1 4
-
-; (filter #(not (some nil? %)) (concat (map vector v3 (conj v2 nil)) (map vector v3 (into [nil] v2))))
-
-;5 5 1 1 1 1 4 4
-;2 3 3 4 3 4 4 5
-; take a row
-;
+  ([p] (apply min (map :sum (reduce
+                              (fn [l v]
+                                (apply concat (map
+                                                #(let [i (:index %1) s (:sum %1)]
+                                                  (vector
+                                                    (hash-map :index i :sum (+ (nth v i) s))
+                                                    (hash-map :index (inc i) :sum (+ (nth v (inc i)) s))
+                                                    )) l)))
+                              [{:index 0 :sum (first (first p))}]
+                              (rest p))))))
