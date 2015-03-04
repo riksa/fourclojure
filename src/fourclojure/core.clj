@@ -239,3 +239,8 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
 (defn p43
   "Write a function which reverses the interleave process into x number of subsequences."
   ([s n] (for [x (range n)] (keep-indexed #(if (= x (mod %1 n)) %2) s))))
+
+(defn p88
+  "Write a function which returns the symmetric difference of two sets. The symmetric difference is the set of items
+  belonging to one but not both of the two sets."
+  ([s1 s2] (apply hash-set (remove (apply hash-set (filter s1 s2)) (into s1 s2)))))
