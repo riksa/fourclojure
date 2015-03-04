@@ -274,5 +274,14 @@ High card: None of the above conditions are met"
 (defn flush?
   ([s] (if (->> s mapcards (map :suit) set count (= 1)) :flush)))
 
+(defn straight?
+  ([s] (let [cards (mapcards s)
+             ranks (map :rank cards)
+             min (apply min ranks)]
+         (if (or
+               (every? (set ranks) (range min (+ 5 min )))
+               (every? #spy/p(set ranks) #spy/p(conj (range 2 6) 14 )))
+               :straight ))))
+
 
 ;(defn sets ) ;sort -> partition-by last
