@@ -280,8 +280,10 @@ High card: None of the above conditions are met"
              min (apply min ranks)]
          (if (or
                (every? (set ranks) (range min (+ 5 min )))
-               (every? #spy/p(set ranks) #spy/p(conj (range 2 6) 14 )))
+               (every? (set ranks) (conj (range 2 6) 14 )))
                :straight ))))
 
+(defn straight-flush?
+  ([s] (if (and (straight? s) (flush? s)) :straight-flush)))
 
 ;(defn sets ) ;sort -> partition-by last
