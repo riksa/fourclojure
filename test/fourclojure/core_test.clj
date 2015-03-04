@@ -359,3 +359,16 @@
     (is (= (p88 #{:a :b :c} #{}) #{:a :b :c}))
     (is (= (p88 #{} #{4 5 6}) #{4 5 6}))
     (is (= (p88 #{[1 2] [2 3]} #{[2 3] [3 4]}) #{[1 2] [3 4]}))))
+
+(deftest p178test
+  (testing "p178"
+    (is (= :high-card (p178 ["HA" "D2" "H3" "C9" "DJ"])))
+    (is (= :pair (p178 ["HA" "HQ" "SJ" "DA" "HT"])))
+    (is (= :two-pair (p178 ["HA" "DA" "HQ" "SQ" "HT"])))
+    (is (= :three-of-a-kind (p178 ["HA" "DA" "CA" "HJ" "HT"])))
+    (is (= :straight (p178 ["HA" "DK" "HQ" "HJ" "HT"])))
+    (is (= :straight (p178 ["HA" "H2" "S3" "D4" "C5"])))
+    (is (= :flush (p178 ["HA" "HK" "H2" "H4" "HT"])))
+    (is (= :full-house (p178 ["HA" "DA" "CA" "HJ" "DJ"])))
+    (is (= :four-of-a-kind (p178 ["HA" "DA" "CA" "SA" "DJ"])))
+    (is (= :straight-flush (p178 ["HA" "HK" "HQ" "HJ" "HT"])))))
