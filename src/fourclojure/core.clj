@@ -268,10 +268,11 @@ High card: None of the above conditions are met"
 (def _three ["HA" "DA" "CA" "HJ" "HT"])
 (def _fullhouse ["HA" "DA" "CA" "HJ" "DJ"])
 
-(defn flush?
-  ([s] (if (->> s (map first) set count (= 1)) :flush)))
-
 (defn mapcards
   ([s] (map #(hash-map :rank ((zipmap "AKQJT98765432" (iterate dec 14)) (second %)) :suit (first %) ) s)))
+
+(defn flush?
+  ([s] (if (->> s mapcards (map :suit) set count (= 1)) :flush)))
+
 
 ;(defn sets ) ;sort -> partition-by last
