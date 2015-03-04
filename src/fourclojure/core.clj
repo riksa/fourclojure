@@ -245,20 +245,6 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
   belonging to one but not both of the two sets."
   ([s1 s2] (apply hash-set (remove (apply hash-set (filter s1 s2)) (into s1 s2)))))
 
-(defn p178
-  "Following on from Recognize Playing Cards, determine the best poker hand that can be made with five cards. The hand
-  rankings are listed below for your convenience.
-
-Straight flush: All cards in the same suit, and in sequence
-Four of a kind: Four of the cards have the same rank
-Full House: Three cards of one rank, the other two of another rank
-Flush: All cards in the same suit
-Straight: All cards in sequence (aces can be high or low, but not both at once)
-Three of a kind: Three of the cards have the same rank
-Two pair: Two pairs of cards have the same rank
-Pair: Two cards have the same rank
-High card: None of the above conditions are met"
-  ([c] nil))
 
 (def _flush ["HA" "HK" "H2" "H4" "HT"])
 (def _straight ["HA" "H2" "S3" "D4" "C5"])
@@ -306,3 +292,27 @@ High card: None of the above conditions are met"
 
 (defn pair?
   ([s] (if (every? (set (sets s)) [2]) :pair)))
+
+(defn p178
+  "Following on from Recognize Playing Cards, determine the best poker hand that can be made with five cards. The hand
+  rankings are listed below for your convenience.
+
+Straight flush: All cards in the same suit, and in sequence
+Four of a kind: Four of the cards have the same rank
+Full House: Three cards of one rank, the other two of another rank
+Flush: All cards in the same suit
+Straight: All cards in sequence (aces can be high or low, but not both at once)
+Three of a kind: Three of the cards have the same rank
+Two pair: Two pairs of cards have the same rank
+Pair: Two cards have the same rank
+High card: None of the above conditions are met"
+  ([h] (or
+         (straight-flush? h)
+         (four-of-a-kind? h)
+         (full-house? h)
+         (flush? h)
+         (straight? h)
+         (three-of-a-kind? h)
+         (two-pair? h)
+         (pair? h)
+         :high-card)))
