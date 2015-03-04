@@ -235,3 +235,7 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
                                                     )) l)))
                               [{:index 0 :sum (-> p first first)}]
                               (rest p))))))
+
+(defn p43
+  "Write a function which reverses the interleave process into x number of subsequences."
+  ([s n] (for [x (range n)] (keep-indexed #(if (= x (mod %1 n)) %2) s))))
