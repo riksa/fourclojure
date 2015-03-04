@@ -267,6 +267,7 @@ High card: None of the above conditions are met"
 (def _twopair ["HA" "DA" "HQ" "SQ" "HT"])
 (def _three ["HA" "DA" "CA" "HJ" "HT"])
 (def _fullhouse ["HA" "DA" "CA" "HJ" "DJ"])
+(def _four ["HA" "DA" "CA" "SA" "DJ"])
 
 (defn mapcards
   ([s] (map #(hash-map :rank ((zipmap "AKQJT98765432" (iterate dec 14)) (second %)) :suit (first %) ) s)))
@@ -286,4 +287,22 @@ High card: None of the above conditions are met"
 (defn straight-flush?
   ([s] (if (and (straight? s) (flush? s)) :straight-flush)))
 
-;(defn sets ) ;sort -> partition-by last
+(defn sets
+  ([s] (let [cards (mapcards s)
+             ranks (map :rank cards)]
+         (map count (partition-by identity (sort ranks))))))
+
+(defn full-house?
+  ([s] (if (every? (set (sets s)) [3 2]) :full-house)))
+
+(defn four-of-a-kind?
+  ([s] (if (every? (set (sets s)) [4]) :four-of-a-kind)))
+
+(defn three-of-a-kind?
+  ([s] (if (every? (set (sets s)) [3]) :three-of-a-kind)))
+
+(defn two-pair?
+  ([s] (if (= 2 (count (filter #(= 2 %) (sets s)))) :two-pair)))
+
+(defn pair?
+  ([s] (if (every? (set (sets s)) [2]) :pair)))
