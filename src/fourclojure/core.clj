@@ -244,3 +244,48 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
   "Write a function which returns the symmetric difference of two sets. The symmetric difference is the set of items
   belonging to one but not both of the two sets."
   ([s1 s2] (apply hash-set (remove (apply hash-set (filter s1 s2)) (into s1 s2)))))
+
+(defn p178
+  "Following on from Recognize Playing Cards, determine the best poker hand that can be made with five cards. The hand
+  rankings are listed below for your convenience.
+
+Straight flush: All cards in the same suit, and in sequence
+Four of a kind: Four of the cards have the same rank
+Full House: Three cards of one rank, the other two of another rank
+Flush: All cards in the same suit
+Straight: All cards in sequence (aces can be high or low, but not both at once)
+Three of a kind: Three of the cards have the same rank
+Two pair: Two pairs of cards have the same rank
+Pair: Two cards have the same rank
+High card: None of the above conditions are met"
+  ([h]
+   (letfn [
+           (mapcards [s] (map #(hash-map :rank ((zipmap "AKQJT98765432" (iterate dec 14)) (second %)) :suit (first %) ) s) )
+           (flush? [s] (if (->> s mapcards (map :suit) set count (= 1)) :flush))
+           (straight? [s] (let [cards (mapcards s)
+                            ranks (map :rank cards)
+                            min (apply min ranks)]
+                        (if (or
+                              (every? (set ranks) (range min (+ 5 min )))
+                              (every? (set ranks) (conj (range 2 6) 14 )))
+                          :straight )))
+           (straight-flush? [s] (if (and (straight? s) (flush? s)) :straight-flush))
+           (sets [s]  (let [cards (mapcards s)
+                            ranks (map :rank cards)]
+                        (map count (partition-by identity (sort ranks)))))
+           (pair? [s] (if (every? (set (sets s)) [2]) :pair))
+           (two-pair? [s] (if (= 2 (count (filter #(= 2 %) (sets s)))) :two-pair))
+           (three-of-a-kind? [s] (if (every? (set (sets s)) [3]) :three-of-a-kind))
+           (full-house? [s] (if (every? (set (sets s)) [3 2]) :full-house))
+           (four-of-a-kind? [s] (if (every? (set (sets s)) [4]) :four-of-a-kind))
+           ]
+   (or
+         (straight-flush? h)
+         (four-of-a-kind? h)
+         (full-house? h)
+         (flush? h)
+         (straight? h)
+         (three-of-a-kind? h)
+         (two-pair? h)
+         (pair? h)
+         :high-card))))
