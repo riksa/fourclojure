@@ -372,3 +372,12 @@
     (is (= :full-house (p178 ["HA" "DA" "CA" "HJ" "DJ"])))
     (is (= :four-of-a-kind (p178 ["HA" "DA" "CA" "SA" "DJ"])))
     (is (= :straight-flush (p178 ["HA" "HK" "HQ" "HJ" "HT"])))))
+
+(deftest p128test
+  (testing "p128"
+    (is (= {:suit :diamond :rank 10} (p128 "DQ")))
+    (is (= {:suit :heart :rank 3} (p128 "H5")))
+    (is (= {:suit :club :rank 12} (p128 "CA")))
+    (is (= (range 13) (map (comp :rank p128 str)
+                           '[S2 S3 S4 S5 S6 S7
+                             S8 S9 ST SJ SQ SK SA])))))
