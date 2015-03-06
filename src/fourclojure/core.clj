@@ -314,3 +314,8 @@ be represented with the single character 'T', rather than the two characters '10
 (defn p157
   "Transform a sequence into a sequence of pairs containing the original elements along with their index."
   ([s] (map #(vector %1 %2) s (range))))
+
+(defn p158
+  "Write a function that accepts a curried function of unknown arity n. Return an equivalent function of n arguments.
+  You may wish to read this."
+  ([f] (fn ([& r] (reduce #(%1 %2) f r)))))
