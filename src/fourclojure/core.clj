@@ -260,35 +260,35 @@ Pair: Two cards have the same rank
 High card: None of the above conditions are met"
   ([h]
    (letfn [
-           (mapcards [s] (map #(hash-map :rank ((zipmap "AKQJT98765432" (iterate dec 14)) (second %)) :suit (first %) ) s) )
+           (mapcards [s] (map #(hash-map :rank ((zipmap "AKQJT98765432" (iterate dec 14)) (second %)) :suit (first %)) s))
            (flush? [s] (if (->> s mapcards (map :suit) set count (= 1)) :flush))
            (straight? [s] (let [cards (mapcards s)
-                            ranks (map :rank cards)
-                            min (apply min ranks)]
-                        (if (or
-                              (every? (set ranks) (range min (+ 5 min )))
-                              (every? (set ranks) (conj (range 2 6) 14 )))
-                          :straight )))
+                                ranks (map :rank cards)
+                                min (apply min ranks)]
+                            (if (or
+                                  (every? (set ranks) (range min (+ 5 min)))
+                                  (every? (set ranks) (conj (range 2 6) 14)))
+                              :straight)))
            (straight-flush? [s] (if (and (straight? s) (flush? s)) :straight-flush))
-           (sets [s]  (let [cards (mapcards s)
-                            ranks (map :rank cards)]
-                        (map count (partition-by identity (sort ranks)))))
+           (sets [s] (let [cards (mapcards s)
+                           ranks (map :rank cards)]
+                       (map count (partition-by identity (sort ranks)))))
            (pair? [s] (if (every? (set (sets s)) [2]) :pair))
            (two-pair? [s] (if (= 2 (count (filter #(= 2 %) (sets s)))) :two-pair))
            (three-of-a-kind? [s] (if (every? (set (sets s)) [3]) :three-of-a-kind))
            (full-house? [s] (if (every? (set (sets s)) [3 2]) :full-house))
            (four-of-a-kind? [s] (if (every? (set (sets s)) [4]) :four-of-a-kind))
            ]
-   (or
-         (straight-flush? h)
-         (four-of-a-kind? h)
-         (full-house? h)
-         (flush? h)
-         (straight? h)
-         (three-of-a-kind? h)
-         (two-pair? h)
-         (pair? h)
-         :high-card))))
+     (or
+       (straight-flush? h)
+       (four-of-a-kind? h)
+       (full-house? h)
+       (flush? h)
+       (straight? h)
+       (three-of-a-kind? h)
+       (two-pair? h)
+       (pair? h)
+       :high-card))))
 
 (defn p128
   "A standard American deck of playing cards has four suits - spades, hearts, diamonds, and clubs - and thirteen cards
@@ -302,11 +302,11 @@ valued from 0 (the two) to 12 (the ace)
 Write a function which converts (for example) the string 'SJ' into a map of {:suit :spade, :rank 9}. A ten will always
 be represented with the single character 'T', rather than the two characters '10'."
   ([c] (hash-map :rank ((zipmap "AKQJT98765432" (iterate dec 12)) (second c))
-                 :suit ({'\C :club '\D :diamond '\H :heart '\S :spade} (first c)) )))
+                 :suit ({'\C :club '\D :diamond '\H :heart '\S :spade} (first c)))))
 
 (defn p135
   "Your friend Joe is always whining about Lisps using the prefix notation for math. Show him how you could easily write
    a function that does math using the infix notation. Is your favorite language that flexible, Joe? Write a function
    that accepts a variable length mathematical expression consisting of numbers and the operations +, -, *, and /.
    Assume a simple calculator that does not do precedence and instead just calculates left to right."
-  ([a o b & r] (if (empty? r) (o a b) (recur (o a b) (first r) (second r) (drop 2 r)))))
+  ([a o b & r] (let [c (o a b) [x y & z] r] (if r (recur c x y z) c))))
