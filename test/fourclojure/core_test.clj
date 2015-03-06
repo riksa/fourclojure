@@ -223,7 +223,7 @@
 
 (deftest p134test
   (testing "p134"
-    (is (true?  (p134 :a {:a nil :b 2})))
+    (is (true? (p134 :a {:a nil :b 2})))
     (is (false? (p134 :b {:a nil :b 2})))
     (is (false? (p134 :c {:a nil :b 2})))))
 
@@ -262,22 +262,22 @@
 (deftest p90test
   (testing "p90"
     (is (= (p90 #{"ace" "king" "queen"} #{"♠" "♥" "♦" "♣"})
-           #{["ace"   "♠"] ["ace"   "♥"] ["ace"   "♦"] ["ace"   "♣"]
-             ["king"  "♠"] ["king"  "♥"] ["king"  "♦"] ["king"  "♣"]
+           #{["ace" "♠"] ["ace" "♥"] ["ace" "♦"] ["ace" "♣"]
+             ["king" "♠"] ["king" "♥"] ["king" "♦"] ["king" "♣"]
              ["queen" "♠"] ["queen" "♥"] ["queen" "♦"] ["queen" "♣"]}))
     (is (= (p90 #{1 2 3} #{4 5})
            #{[1 4] [2 4] [3 4] [1 5] [2 5] [3 5]}))
     (is (= 300 (count (p90 (into #{} (range 10))
-                          (into #{} (range 30))))))))
+                           (into #{} (range 30))))))))
 
 (deftest p122test
   (testing "p122"
-    (is (= 0     (p122 "0")))
-    (is (= 7     (p122 "111")))
-    (is (= 8     (p122 "1000")))
-    (is (= 9     (p122 "1001")))
-    (is (= 255   (p122 "11111111")))
-    (is (= 1365  (p122 "10101010101")))
+    (is (= 0 (p122 "0")))
+    (is (= 7 (p122 "111")))
+    (is (= 8 (p122 "1000")))
+    (is (= 9 (p122 "1001")))
+    (is (= 255 (p122 "11111111")))
+    (is (= 1365 (p122 "10101010101")))
     (is (= 65535 (p122 "1111111111111111")))))
 
 (deftest p63test
@@ -306,26 +306,26 @@
 (deftest p73test
   (testing "p73"
     (is (= nil (p73 [[:e :e :e]
-                    [:e :e :e]
-                    [:e :e :e]])))
+                     [:e :e :e]
+                     [:e :e :e]])))
     (is (= :x (p73 [[:x :e :o]
-                   [:x :e :e]
-                   [:x :e :o]])))
+                    [:x :e :e]
+                    [:x :e :o]])))
     (is (= :o (p73 [[:e :x :e]
-                   [:o :o :o]
-                   [:x :e :x]])))
+                    [:o :o :o]
+                    [:x :e :x]])))
     (is (= nil (p73 [[:x :e :o]
-                    [:x :x :e]
-                    [:o :x :o]])))
+                     [:x :x :e]
+                     [:o :x :o]])))
     (is (= :x (p73 [[:x :e :e]
-                   [:o :x :e]
-                   [:o :e :x]])))
+                    [:o :x :e]
+                    [:o :e :x]])))
     (is (= :o (p73 [[:x :e :o]
-                   [:x :o :e]
-                   [:o :e :x]])))
+                    [:x :o :e]
+                    [:o :e :x]])))
     (is (= nil (p73 [[:x :o :x]
-                    [:x :o :x]
-                    [:o :x :o]])))))
+                     [:x :o :x]
+                     [:o :x :o]])))))
 
 (deftest p92test
   (testing "p92"
@@ -337,15 +337,15 @@
 (deftest p79test
   (testing "p79"
     (is (= 7 (p79 '([1]
-                    [2 4]
-                    [5 1 4]
-                    [2 3 4 5]))))
-    (is (= 20 (p79 '([3]
                      [2 4]
-                     [1 9 3]
-                     [9 9 2 4]
-                     [4 6 6 7 8]
-                     [5 7 3 5 1 4]))))))
+                     [5 1 4]
+                     [2 3 4 5]))))
+    (is (= 20 (p79 '([3]
+                      [2 4]
+                      [1 9 3]
+                      [9 9 2 4]
+                      [4 6 6 7 8]
+                      [5 7 3 5 1 4]))))))
 
 (deftest p43test
   (testing "p43"
@@ -381,3 +381,11 @@
     (is (= (range 13) (map (comp :rank p128 str)
                            '[S2 S3 S4 S5 S6 S7
                              S8 S9 ST SJ SQ SK SA])))))
+
+
+(deftest p135test
+  (testing "p135"
+    (is (= 7  (p135 2 + 5)))
+    (is (= 42 (p135 38 + 48 - 2 / 2)))
+    (is (= 8  (p135 10 / 2 - 1 * 2)))
+    (is (= 72 (p135 20 / 2 + 2 + 4 + 8 - 6 - 10 * 9)))))

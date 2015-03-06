@@ -301,4 +301,12 @@ valued from 0 (the two) to 12 (the ace)
 
 Write a function which converts (for example) the string 'SJ' into a map of {:suit :spade, :rank 9}. A ten will always
 be represented with the single character 'T', rather than the two characters '10'."
-  ([c] (hash-map :rank ((zipmap "AKQJT98765432" (iterate dec 12)) (second c)) :suit ({'\C :club '\D :diamond '\H :heart '\S :spade} (first c)) )))
+  ([c] (hash-map :rank ((zipmap "AKQJT98765432" (iterate dec 12)) (second c))
+                 :suit ({'\C :club '\D :diamond '\H :heart '\S :spade} (first c)) )))
+
+(defn p135
+  "Your friend Joe is always whining about Lisps using the prefix notation for math. Show him how you could easily write
+   a function that does math using the infix notation. Is your favorite language that flexible, Joe? Write a function
+   that accepts a variable length mathematical expression consisting of numbers and the operations +, -, *, and /.
+   Assume a simple calculator that does not do precedence and instead just calculates left to right."
+  ([a o b & r] (if (empty? r) (o a b) (recur (o a b) (first r) (second r) (drop 2 r)))))
