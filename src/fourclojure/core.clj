@@ -310,3 +310,7 @@ be represented with the single character 'T', rather than the two characters '10
    that accepts a variable length mathematical expression consisting of numbers and the operations +, -, *, and /.
    Assume a simple calculator that does not do precedence and instead just calculates left to right."
   ([a o b & r] (let [c (o a b) [x y & z] r] (if r (recur c x y z) c))))
+
+(defn p157
+  "Transform a sequence into a sequence of pairs containing the original elements along with their index."
+  ([s] (map #(vector %1 %2) s (range))))
