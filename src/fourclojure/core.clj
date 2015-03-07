@@ -329,3 +329,8 @@ Write a function which returns the nth row of Pascal's Triangle. "
   ([n] (if (= 1 n) [1]
                    (let [p (p97 (dec n))]
                      (vec (map + (conj p 0) (into [0] p)))))))
+
+(defn p118
+  "Map is one of the core elements of a functional programming language. Given a function f and an input sequence s,
+  return a lazy sequence of (f x) for each element x in s."
+  ([f s] (let[[o & r]s] (if (nil? r) (lazy-seq (cons (f o) nil)) (lazy-seq (cons (f o) (p118 f r) ))))))
