@@ -334,3 +334,9 @@ Write a function which returns the nth row of Pascal's Triangle. "
   "Map is one of the core elements of a functional programming language. Given a function f and an input sequence s,
   return a lazy sequence of (f x) for each element x in s."
   ([f s] (let[[o & r]s] (if (nil? r) (lazy-seq (cons (f o) nil)) (lazy-seq (cons (f o) (p118 f r) ))))))
+
+(defn p120
+  "Write a function which takes a collection of integers as an argument. Return the count of how many elements are
+  smaller than the sum of their squared component digits. For example: 10 is larger than 1 squared plus 0 squared;
+  whereas 15 is smaller than 1 squared plus 5 squared."
+  ([s] (map #(loop [v [] n %] (let [m (mod n 10) r (/ (- n m) 10)] (if (= 0 r) (cons m v) (recur (cons m v) r) ))) s)))
