@@ -438,9 +438,9 @@
                 (drop (dec 1000000))
                 (take 2))))))
 
-(deftest p122test
-  (testing "p122"
-    (is (= 8 (p122 (range 10))))
-    (is (= 19 (p122 (range 30))))
-    (is (= 50 (p122 (range 100))))
-    (is (= 50 (p122 (range 1000))))))
+(deftest p120test
+  (testing "p120"
+    (is (= 8 (p120 (range 10))))
+    (is (= 19 (p120 (range 30))))
+    (is (= 50 (p120 (range 100))))
+    (is (= 50 (p120 (range 1000))))))
