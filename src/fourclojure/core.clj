@@ -319,3 +319,13 @@ be represented with the single character 'T', rather than the two characters '10
   "Write a function that accepts a curried function of unknown arity n. Return an equivalent function of n arguments.
   You may wish to read this."
   ([f] (fn ([& r] (reduce #(%1 %2) f r)))))
+
+(defn p97
+  "Pascal's triangle is a triangle of numbers computed using the following rules:
+- The first row is 1.
+- Each successive row is computed by adding together adjacent numbers in the row above, and adding a 1 to the beginning
+and end of the row.
+Write a function which returns the nth row of Pascal's Triangle. "
+  ([n] (if (= 1 n) [1]
+                   (let [p (p97 (dec n))]
+                     (vec (map + (conj p 0) (into [0] p)))))))
