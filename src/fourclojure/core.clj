@@ -342,3 +342,9 @@ Write a function which returns the nth row of Pascal's Triangle. "
   ([s] (letfn [(d [x] (loop [v [] n x] (let [m (mod n 10) r (/ (- n m) 10)] (if (= 0 r) (cons m v) (recur (cons m v) r) ))))
                (z [c] (reduce + (map #(* % %) c)))]
          (count (filter #(< % (z (d %))) s)))))
+
+(defn p50
+  "Write a function which takes a sequence consisting of items with different types and splits them up into a set of
+  homogeneous sub-sequences. The internal order of each sub-sequence should be maintained, but the sub-sequences
+  themselves can be returned in any order (this is why 'set' is used in the test cases)."
+  ([s] (vals (reduce #(assoc %1 (type %2) (cons %2 (%1 (type %2)))) {} (reverse s)))))

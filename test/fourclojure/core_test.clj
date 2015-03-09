@@ -444,3 +444,9 @@
     (is (= 19 (p120 (range 30))))
     (is (= 50 (p120 (range 100))))
     (is (= 50 (p120 (range 1000))))))
+
+(deftest p50test
+  (testing "p50"
+    (is (= (set (p50 [1 :a 2 :b 3 :c])) #{[1 2 3] [:a :b :c]}))
+    (is (= (set (p50 [:a "foo"  "bar" :b])) #{[:a :b] ["foo" "bar"]}))
+    (is (= (set (p50 [[1 2] :a [3 4] 5 6 :b])) #{[[1 2] [3 4]] [:a :b] [5 6]}))))
