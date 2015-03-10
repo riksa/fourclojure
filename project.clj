@@ -8,4 +8,7 @@
             :target-path "target/%s"
             :profiles {:uberjar {:aot :all}
                        :dev     {:source-paths ["dev"]
-                                 :dependencies [[org.clojure/tools.namespace "0.2.9"]]}})
+                                 :dependencies [[spyscope "0.1.5"]
+                                                [org.clojure/tools.namespace "0.2.9"]
+                                                [leiningen #=(leiningen.core.main/leiningen-version)]
+                                                [im.chit/vinyasa "0.3.4"]]}})

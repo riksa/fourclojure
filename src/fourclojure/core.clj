@@ -235,3 +235,123 @@ to handle any numbers greater than MMMCMXCIX (3999), the largest number represen
                                                     )) l)))
                               [{:index 0 :sum (-> p first first)}]
                               (rest p))))))
+
+(defn p43
+  "Write a function which reverses the interleave process into x number of subsequences."
+  ([s n] (for [x (range n)] (keep-indexed #(if (= x (mod %1 n)) %2) s))))
+
+(defn p88
+  "Write a function which returns the symmetric difference of two sets. The symmetric difference is the set of items
+  belonging to one but not both of the two sets."
+  ([s1 s2] (apply hash-set (remove (apply hash-set (filter s1 s2)) (into s1 s2)))))
+
+(defn p178
+  "Following on from Recognize Playing Cards, determine the best poker hand that can be made with five cards. The hand
+  rankings are listed below for your convenience.
+
+Straight flush: All cards in the same suit, and in sequence
+Four of a kind: Four of the cards have the same rank
+Full House: Three cards of one rank, the other two of another rank
+Flush: All cards in the same suit
+Straight: All cards in sequence (aces can be high or low, but not both at once)
+Three of a kind: Three of the cards have the same rank
+Two pair: Two pairs of cards have the same rank
+Pair: Two cards have the same rank
+High card: None of the above conditions are met"
+  ([h]
+   (letfn [
+           (mapcards [s] (map #(hash-map :rank ((zipmap "AKQJT98765432" (iterate dec 14)) (second %)) :suit (first %)) s))
+           (flush? [s] (if (->> s mapcards (map :suit) set count (= 1)) :flush))
+           (straight? [s] (let [cards (mapcards s)
+                                ranks (map :rank cards)
+                                min (apply min ranks)]
+                            (if (or
+                                  (every? (set ranks) (range min (+ 5 min)))
+                                  (every? (set ranks) (conj (range 2 6) 14)))
+                              :straight)))
+           (straight-flush? [s] (if (and (straight? s) (flush? s)) :straight-flush))
+           (sets [s] (let [cards (mapcards s)
+                           ranks (map :rank cards)]
+                       (map count (partition-by identity (sort ranks)))))
+           (pair? [s] (if (every? (set (sets s)) [2]) :pair))
+           (two-pair? [s] (if (= 2 (count (filter #(= 2 %) (sets s)))) :two-pair))
+           (three-of-a-kind? [s] (if (every? (set (sets s)) [3]) :three-of-a-kind))
+           (full-house? [s] (if (every? (set (sets s)) [3 2]) :full-house))
+           (four-of-a-kind? [s] (if (every? (set (sets s)) [4]) :four-of-a-kind))
+           ]
+     (or
+       (straight-flush? h)
+       (four-of-a-kind? h)
+       (full-house? h)
+       (flush? h)
+       (straight? h)
+       (three-of-a-kind? h)
+       (two-pair? h)
+       (pair? h)
+       :high-card))))
+
+(defn p128
+  "A standard American deck of playing cards has four suits - spades, hearts, diamonds, and clubs - and thirteen cards
+  in each suit. Two is the lowest rank, followed by other integers up to ten; then the jack, queen, king, and ace.
+
+It's convenient for humans to represent these cards as suit/rank pairs, such as H5 or DQ: the heart five and diamond
+queen respectively. But these forms are not convenient for programmers, so to write a card game you need some way to
+parse an input string into meaningful components. For purposes of determining rank, we will define the cards to be
+valued from 0 (the two) to 12 (the ace)
+
+Write a function which converts (for example) the string 'SJ' into a map of {:suit :spade, :rank 9}. A ten will always
+be represented with the single character 'T', rather than the two characters '10'."
+  ([c] (hash-map :rank ((zipmap "AKQJT98765432" (iterate dec 12)) (second c))
+                 :suit ({'\C :club '\D :diamond '\H :heart '\S :spade} (first c)))))
+
+(defn p135
+  "Your friend Joe is always whining about Lisps using the prefix notation for math. Show him how you could easily write
+   a function that does math using the infix notation. Is your favorite language that flexible, Joe? Write a function
+   that accepts a variable length mathematical expression consisting of numbers and the operations +, -, *, and /.
+   Assume a simple calculator that does not do precedence and instead just calculates left to right."
+  ([a o b & r] (let [c (o a b) [x y & z] r] (if r (recur c x y z) c))))
+
+(defn p157
+  "Transform a sequence into a sequence of pairs containing the original elements along with their index."
+  ([s] (map #(vector %1 %2) s (range))))
+
+(defn p158
+  "Write a function that accepts a curried function of unknown arity n. Return an equivalent function of n arguments.
+  You may wish to read this."
+  ([f] (fn ([& r] (reduce #(%1 %2) f r)))))
+
+(defn p97
+  "Pascal's triangle is a triangle of numbers computed using the following rules:
+- The first row is 1.
+- Each successive row is computed by adding together adjacent numbers in the row above, and adding a 1 to the beginning
+and end of the row.
+Write a function which returns the nth row of Pascal's Triangle. "
+  ([n] (if (= 1 n) [1]
+                   (let [p (p97 (dec n))]
+                     (vec (map + (conj p 0) (into [0] p)))))))
+
+(defn p118
+  "Map is one of the core elements of a functional programming language. Given a function f and an input sequence s,
+  return a lazy sequence of (f x) for each element x in s."
+  ([f s] (let[[o & r]s] (if (nil? r) (lazy-seq (cons (f o) nil)) (lazy-seq (cons (f o) (p118 f r) ))))))
+
+(defn p120
+  "Write a function which takes a collection of integers as an argument. Return the count of how many elements are
+  smaller than the sum of their squared component digits. For example: 10 is larger than 1 squared plus 0 squared;
+  whereas 15 is smaller than 1 squared plus 5 squared."
+  ([s] (letfn [(d [x] (loop [v [] n x] (let [m (mod n 10) r (/ (- n m) 10)] (if (= 0 r) (cons m v) (recur (cons m v) r) ))))
+               (z [c] (reduce + (map #(* % %) c)))]
+         (count (filter #(< % (z (d %))) s)))))
+
+(defn p50
+  "Write a function which takes a sequence consisting of items with different types and splits them up into a set of
+  homogeneous sub-sequences. The internal order of each sub-sequence should be maintained, but the sub-sequences
+  themselves can be returned in any order (this is why 'set' is used in the test cases)."
+  ([s] (vals (reduce #(assoc %1 (type %2) (cons %2 (%1 (type %2)))) {} (reverse s)))))
+
+(defn p153
+  "Given a set of sets, create a function which returns true if no two of those sets have any elements in common1 and
+  false otherwise. Some of the test cases are a bit tricky, so pay a little more attention to them.
+
+  1Such sets are usually called pairwise disjoint or mutually disjoint."
+  ([s] (= (count (reduce into s)) (reduce + (map count s)))))

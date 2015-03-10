@@ -223,7 +223,7 @@
 
 (deftest p134test
   (testing "p134"
-    (is (true?  (p134 :a {:a nil :b 2})))
+    (is (true? (p134 :a {:a nil :b 2})))
     (is (false? (p134 :b {:a nil :b 2})))
     (is (false? (p134 :c {:a nil :b 2})))))
 
@@ -262,22 +262,22 @@
 (deftest p90test
   (testing "p90"
     (is (= (p90 #{"ace" "king" "queen"} #{"♠" "♥" "♦" "♣"})
-           #{["ace"   "♠"] ["ace"   "♥"] ["ace"   "♦"] ["ace"   "♣"]
-             ["king"  "♠"] ["king"  "♥"] ["king"  "♦"] ["king"  "♣"]
+           #{["ace" "♠"] ["ace" "♥"] ["ace" "♦"] ["ace" "♣"]
+             ["king" "♠"] ["king" "♥"] ["king" "♦"] ["king" "♣"]
              ["queen" "♠"] ["queen" "♥"] ["queen" "♦"] ["queen" "♣"]}))
     (is (= (p90 #{1 2 3} #{4 5})
            #{[1 4] [2 4] [3 4] [1 5] [2 5] [3 5]}))
     (is (= 300 (count (p90 (into #{} (range 10))
-                          (into #{} (range 30))))))))
+                           (into #{} (range 30))))))))
 
 (deftest p122test
   (testing "p122"
-    (is (= 0     (p122 "0")))
-    (is (= 7     (p122 "111")))
-    (is (= 8     (p122 "1000")))
-    (is (= 9     (p122 "1001")))
-    (is (= 255   (p122 "11111111")))
-    (is (= 1365  (p122 "10101010101")))
+    (is (= 0 (p122 "0")))
+    (is (= 7 (p122 "111")))
+    (is (= 8 (p122 "1000")))
+    (is (= 9 (p122 "1001")))
+    (is (= 255 (p122 "11111111")))
+    (is (= 1365 (p122 "10101010101")))
     (is (= 65535 (p122 "1111111111111111")))))
 
 (deftest p63test
@@ -306,26 +306,26 @@
 (deftest p73test
   (testing "p73"
     (is (= nil (p73 [[:e :e :e]
-                    [:e :e :e]
-                    [:e :e :e]])))
+                     [:e :e :e]
+                     [:e :e :e]])))
     (is (= :x (p73 [[:x :e :o]
-                   [:x :e :e]
-                   [:x :e :o]])))
+                    [:x :e :e]
+                    [:x :e :o]])))
     (is (= :o (p73 [[:e :x :e]
-                   [:o :o :o]
-                   [:x :e :x]])))
+                    [:o :o :o]
+                    [:x :e :x]])))
     (is (= nil (p73 [[:x :e :o]
-                    [:x :x :e]
-                    [:o :x :o]])))
+                     [:x :x :e]
+                     [:o :x :o]])))
     (is (= :x (p73 [[:x :e :e]
-                   [:o :x :e]
-                   [:o :e :x]])))
+                    [:o :x :e]
+                    [:o :e :x]])))
     (is (= :o (p73 [[:x :e :o]
-                   [:x :o :e]
-                   [:o :e :x]])))
+                    [:x :o :e]
+                    [:o :e :x]])))
     (is (= nil (p73 [[:x :o :x]
-                    [:x :o :x]
-                    [:o :x :o]])))))
+                     [:x :o :x]
+                     [:o :x :o]])))))
 
 (deftest p92test
   (testing "p92"
@@ -337,13 +337,158 @@
 (deftest p79test
   (testing "p79"
     (is (= 7 (p79 '([1]
-                    [2 4]
-                    [5 1 4]
-                    [2 3 4 5]))))
-    (is (= 20 (p79 '([3]
                      [2 4]
-                     [1 9 3]
-                     [9 9 2 4]
-                     [4 6 6 7 8]
-                     [5 7 3 5 1 4]))))))
+                     [5 1 4]
+                     [2 3 4 5]))))
+    (is (= 20 (p79 '([3]
+                      [2 4]
+                      [1 9 3]
+                      [9 9 2 4]
+                      [4 6 6 7 8]
+                      [5 7 3 5 1 4]))))))
 
+(deftest p43test
+  (testing "p43"
+    (is (= (p43 [1 2 3 4 5 6] 2) '((1 3 5) (2 4 6))))
+    (is (= (p43 (range 9) 3) '((0 3 6) (1 4 7) (2 5 8))))
+    (is (= (p43 (range 10) 5) '((0 5) (1 6) (2 7) (3 8) (4 9))))))
+
+(deftest p88test
+  (testing "p88"
+    (is (= (p88 #{1 2 3 4 5 6} #{1 3 5 7}) #{2 4 6 7}))
+    (is (= (p88 #{:a :b :c} #{}) #{:a :b :c}))
+    (is (= (p88 #{} #{4 5 6}) #{4 5 6}))
+    (is (= (p88 #{[1 2] [2 3]} #{[2 3] [3 4]}) #{[1 2] [3 4]}))))
+
+(deftest p178test
+  (testing "p178"
+    (is (= :high-card (p178 ["HA" "D2" "H3" "C9" "DJ"])))
+    (is (= :pair (p178 ["HA" "HQ" "SJ" "DA" "HT"])))
+    (is (= :two-pair (p178 ["HA" "DA" "HQ" "SQ" "HT"])))
+    (is (= :three-of-a-kind (p178 ["HA" "DA" "CA" "HJ" "HT"])))
+    (is (= :straight (p178 ["HA" "DK" "HQ" "HJ" "HT"])))
+    (is (= :straight (p178 ["HA" "H2" "S3" "D4" "C5"])))
+    (is (= :flush (p178 ["HA" "HK" "H2" "H4" "HT"])))
+    (is (= :full-house (p178 ["HA" "DA" "CA" "HJ" "DJ"])))
+    (is (= :four-of-a-kind (p178 ["HA" "DA" "CA" "SA" "DJ"])))
+    (is (= :straight-flush (p178 ["HA" "HK" "HQ" "HJ" "HT"])))))
+
+(deftest p128test
+  (testing "p128"
+    (is (= {:suit :diamond :rank 10} (p128 "DQ")))
+    (is (= {:suit :heart :rank 3} (p128 "H5")))
+    (is (= {:suit :club :rank 12} (p128 "CA")))
+    (is (= (range 13) (map (comp :rank p128 str)
+                           '[S2 S3 S4 S5 S6 S7
+                             S8 S9 ST SJ SQ SK SA])))))
+
+
+(deftest p135test
+  (testing "p135"
+    (is (= 7 (p135 2 + 5)))
+    (is (= 42 (p135 38 + 48 - 2 / 2)))
+    (is (= 8 (p135 10 / 2 - 1 * 2)))
+    (is (= 72 (p135 20 / 2 + 2 + 4 + 8 - 6 - 10 * 9)))))
+
+(deftest p157test
+  (testing "p157"
+    (is (= (p157 [:a :b :c]) [[:a 0] [:b 1] [:c 2]]))
+    (is (= (p157 [0 1 3]) '((0 0) (1 1) (3 2))))
+    (is (= (p157 [[:foo] {:bar :baz}]) [[[:foo] 0] [{:bar :baz} 1]]))))
+
+(deftest p158test
+  (testing "p158"
+    (is (= 10 ((p158 (fn [a]
+                       (fn [b]
+                         (fn [c]
+                           (fn [d]
+                             (+ a b c d))))))
+                1 2 3 4)))
+    (is (= 24 ((p158 (fn [a]
+                       (fn [b]
+                         (fn [c]
+                           (fn [d]
+                             (* a b c d))))))
+                1 2 3 4)))
+    (is (= 25 ((p158 (fn [a]
+                       (fn [b]
+                         (* a b))))
+                5 5)))))
+
+(deftest p97test
+  (testing "p97"
+    (is (= (p97 1) [1]))
+    (is (= (map p97 (range 1 6))
+           [[1]
+            [1 1]
+            [1 2 1]
+            [1 3 3 1]
+            [1 4 6 4 1]]))
+    (is (= (p97 11)
+           [1 10 45 120 210 252 210 120 45 10 1]))))
+
+(deftest p118test
+  (testing "p118"
+    (is (= [3 4 5 6 7]
+           (p118 inc [2 3 4 5 6])))
+    (is (= (repeat 10 nil)
+           (p118 (fn [_] nil) (range 10))))
+    (is (= [1000000 1000001]
+           (->> (p118 inc (range))
+                (drop (dec 1000000))
+                (take 2))))))
+
+(deftest p120test
+  (testing "p120"
+    (is (= 8 (p120 (range 10))))
+    (is (= 19 (p120 (range 30))))
+    (is (= 50 (p120 (range 100))))
+    (is (= 50 (p120 (range 1000))))))
+
+(deftest p50test
+  (testing "p50"
+    (is (= (set (p50 [1 :a 2 :b 3 :c])) #{[1 2 3] [:a :b :c]}))
+    (is (= (set (p50 [:a "foo"  "bar" :b])) #{[:a :b] ["foo" "bar"]}))
+    (is (= (set (p50 [[1 2] :a [3 4] 5 6 :b])) #{[[1 2] [3 4]] [:a :b] [5 6]}))))
+
+(deftest p153test
+  (testing "p153"
+    (is (= (p153 #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
+           true))
+    (is (= (p153 #{#{:a :b :c :d :e}
+                 #{:a :b :c :d}
+                 #{:a :b :c}
+                 #{:a :b}
+                 #{:a}})
+           false))
+    (is (= (p153 #{#{[1 2 3] [4 5]}
+                 #{[1 2] [3 4 5]}
+                 #{[1] [2] 3 4 5}
+                 #{1 2 [3 4] [5]}})
+           true))
+    (is (= (p153 #{#{'a 'b}
+                 #{'c 'd 'e}
+                 #{'f 'g 'h 'i}
+                 #{''a ''c ''f}})
+           true))
+    (is (= (p153 #{#{'(:x :y :z) '(:x :y) '(:z) '()}
+                 #{#{:x :y :z} #{:x :y} #{:z} #{}}
+                 #{'[:x :y :z] [:x :y] [:z] [] {}}})
+           false))
+    (is (= (p153 #{#{(= "true") false}
+                 #{:yes :no}
+                 #{(class 1) 0}
+                 #{(symbol "true") 'false}
+                 #{(keyword "yes") ::no}
+                 #{(class '1) (int \0)}})
+           false))
+    (is (= (p153 #{#{distinct?}
+                 #{#(-> %) #(-> %)}
+                 #{#(-> %) #(-> %) #(-> %)}
+                 #{#(-> %) #(-> %) #(-> %)}})
+           true))
+    (is (= (p153 #{#{(#(-> *)) + (quote mapcat) #_ nil}
+                 #{'+ '* mapcat (comment mapcat)}
+                 #{(do) set contains? nil?}
+                 #{, , , #_, , empty?}})
+           false))))
