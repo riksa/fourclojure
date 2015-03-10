@@ -450,3 +450,45 @@
     (is (= (set (p50 [1 :a 2 :b 3 :c])) #{[1 2 3] [:a :b :c]}))
     (is (= (set (p50 [:a "foo"  "bar" :b])) #{[:a :b] ["foo" "bar"]}))
     (is (= (set (p50 [[1 2] :a [3 4] 5 6 :b])) #{[[1 2] [3 4]] [:a :b] [5 6]}))))
+
+(deftest p153test
+  (testing "p153"
+    (is (= (p153 #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
+           true))
+    (is (= (p153 #{#{:a :b :c :d :e}
+                 #{:a :b :c :d}
+                 #{:a :b :c}
+                 #{:a :b}
+                 #{:a}})
+           false))
+    (is (= (p153 #{#{[1 2 3] [4 5]}
+                 #{[1 2] [3 4 5]}
+                 #{[1] [2] 3 4 5}
+                 #{1 2 [3 4] [5]}})
+           true))
+    (is (= (p153 #{#{'a 'b}
+                 #{'c 'd 'e}
+                 #{'f 'g 'h 'i}
+                 #{''a ''c ''f}})
+           true))
+    (is (= (p153 #{#{'(:x :y :z) '(:x :y) '(:z) '()}
+                 #{#{:x :y :z} #{:x :y} #{:z} #{}}
+                 #{'[:x :y :z] [:x :y] [:z] [] {}}})
+           false))
+    (is (= (p153 #{#{(= "true") false}
+                 #{:yes :no}
+                 #{(class 1) 0}
+                 #{(symbol "true") 'false}
+                 #{(keyword "yes") ::no}
+                 #{(class '1) (int \0)}})
+           false))
+    (is (= (p153 #{#{distinct?}
+                 #{#(-> %) #(-> %)}
+                 #{#(-> %) #(-> %) #(-> %)}
+                 #{#(-> %) #(-> %) #(-> %)}})
+           true))
+    (is (= (p153 #{#{(#(-> *)) + (quote mapcat) #_ nil}
+                 #{'+ '* mapcat (comment mapcat)}
+                 #{(do) set contains? nil?}
+                 #{, , , #_, , empty?}})
+           false))))
