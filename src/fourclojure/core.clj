@@ -349,21 +349,9 @@ Write a function which returns the nth row of Pascal's Triangle. "
   themselves can be returned in any order (this is why 'set' is used in the test cases)."
   ([s] (vals (reduce #(assoc %1 (type %2) (cons %2 (%1 (type %2)))) {} (reverse s)))))
 
-(def s1 #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
-(def s2 #{#{:a :b :c :d :e}
-          #{:a :b :c :d}
-          #{:a :b :c}
-          #{:a :b}
-          #{:a}})
-
-(def s8 #{#{(#(-> *)) + (quote mapcat) #_ nil}
-          #{'+ '* mapcat (comment mapcat)}
-          #{(do) set contains? nil?}
-          #{, , , #_, , empty?}})
-
 (defn p153
   "Given a set of sets, create a function which returns true if no two of those sets have any elements in common1 and
   false otherwise. Some of the test cases are a bit tricky, so pay a little more attention to them.
 
   1Such sets are usually called pairwise disjoint or mutually disjoint."
-  ([s] (every? identity (for [n s :let [h (disj s n) _ (println n h )] ] (if (every? nil? (map #(some n %) h)) true false)))))
+  ([s] (= (count (reduce into s)) (reduce + (map count s)))))
