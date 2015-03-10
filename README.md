@@ -1,4 +1,4 @@
-![image](https://api.travis-ci.org/riksa/fourclojure.svg?branch=develop)
+![image](https://api.travis-ci.org/riksa/fourclojure.svg?branch=master)
 
 # fourclojure
 
