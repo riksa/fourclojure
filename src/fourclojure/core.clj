@@ -355,3 +355,7 @@ Write a function which returns the nth row of Pascal's Triangle. "
 
   1Such sets are usually called pairwise disjoint or mutually disjoint."
   ([s] (= (count (reduce into s)) (reduce + (map count s)))))
+
+(defn p55
+  "Write a function which returns a map containing the number of occurences of each distinct item in a sequence."
+  ([s] (->> s (group-by identity) (reduce-kv #(assoc %1 %2 (count %3)) {} ))))
