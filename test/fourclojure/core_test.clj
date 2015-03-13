@@ -512,3 +512,9 @@
     (is (= 5 ((p58 (partial + 3) second) [1 2 3 4])))
     (is (= true ((p58 zero? #(mod % 8) +) 3 5 7 9)))
     (is (= "HELLO" ((p58 #(.toUpperCase %) #(apply str %) take) 5 "hello world")))))
+
+(deftest p102test
+  (testing "p102"
+    (is (= (p102 "something") "something"))
+    (is (= (p102 "multi-word-key") "multiWordKey"))
+    (is (= (p102 "leaveMeAlone") "leaveMeAlone"))))

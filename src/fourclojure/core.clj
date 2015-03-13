@@ -368,3 +368,9 @@ Write a function which returns the nth row of Pascal's Triangle. "
   "Write a function which allows you to create function compositions. The parameter list should take a variable number
   of functions, and create a function applies them from right-to-left."
   ([& f] (let [[a & b] (reverse f)] (fn [& x] (reduce #(%2 %1) (apply a x) b)))))
+  
+(defn p102
+  "When working with java, you often need to create an object with fieldsLikeThis, but you'd rather work with a hashmap
+  that has :keys-like-this until it's time to convert. Write a function which takes lower-case hyphen-separated strings
+  and converts them to camel-case strings."
+  ([s] (clojure.string/replace s #"-(\S)" #(.toUpperCase (%1 1)))))
