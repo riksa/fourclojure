@@ -374,3 +374,9 @@ Write a function which returns the nth row of Pascal's Triangle. "
   that has :keys-like-this until it's time to convert. Write a function which takes lower-case hyphen-separated strings
   and converts them to camel-case strings."
   ([s] (clojure.string/replace s #"-(\S)" #(.toUpperCase (%1 1)))))
+
+(defn p115
+  "A balanced number is one whose component digits have the same sum on the left and right halves of the number.
+  Write a function which accepts an integer n, and returns true iff n is balanced."
+  ([n] (letfn [(d [x] (loop [v [] n x] (let [m (mod n 10) r (/ (- n m) 10)] (if (= 0 r) (cons m v) (recur (cons m v) r) ))))]
+         (let [s (d n) c (count s) n (/ c 2)] (= (reduce + (take n s)) (reduce + (take n (reverse s))))))))
