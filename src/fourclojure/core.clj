@@ -333,13 +333,13 @@ Write a function which returns the nth row of Pascal's Triangle. "
 (defn p118
   "Map is one of the core elements of a functional programming language. Given a function f and an input sequence s,
   return a lazy sequence of (f x) for each element x in s."
-  ([f s] (let[[o & r]s] (if (nil? r) (lazy-seq (cons (f o) nil)) (lazy-seq (cons (f o) (p118 f r) ))))))
+  ([f s] (let [[o & r] s] (if (nil? r) (lazy-seq (cons (f o) nil)) (lazy-seq (cons (f o) (p118 f r)))))))
 
 (defn p120
   "Write a function which takes a collection of integers as an argument. Return the count of how many elements are
   smaller than the sum of their squared component digits. For example: 10 is larger than 1 squared plus 0 squared;
   whereas 15 is smaller than 1 squared plus 5 squared."
-  ([s] (letfn [(d [x] (loop [v [] n x] (let [m (mod n 10) r (/ (- n m) 10)] (if (= 0 r) (cons m v) (recur (cons m v) r) ))))
+  ([s] (letfn [(d [x] (loop [v [] n x] (let [m (mod n 10) r (/ (- n m) 10)] (if (= 0 r) (cons m v) (recur (cons m v) r)))))
                (z [c] (reduce + (map #(* % %) c)))]
          (count (filter #(< % (z (d %))) s)))))
 
@@ -358,4 +358,9 @@ Write a function which returns the nth row of Pascal's Triangle. "
 
 (defn p55
   "Write a function which returns a map containing the number of occurences of each distinct item in a sequence."
-  ([s] (->> s (group-by identity) (reduce-kv #(assoc %1 %2 (count %3)) {} ))))
+  ([s] (->> s (group-by identity) (reduce-kv #(assoc %1 %2 (count %3)) {}))))
+
+(defn p56
+  "Write a function which removes the duplicates from a sequence. Order of the items must be maintained."
+  ([s] (reduce #(if (some #{%2} %1) %1 (conj %1 %2)) [] s)))
+
