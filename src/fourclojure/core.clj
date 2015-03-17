@@ -364,3 +364,7 @@ Write a function which returns the nth row of Pascal's Triangle. "
   "Write a function which removes the duplicates from a sequence. Order of the items must be maintained."
   ([s] (reduce #(if (some #{%2} %1) %1 (conj %1 %2)) [] s)))
 
+(defn p58
+  "Write a function which allows you to create function compositions. The parameter list should take a variable number
+  of functions, and create a function applies them from right-to-left."
+  ([& f] (let [[a & b] (reverse f)] (fn [& x] (reduce #(%2 %1) (apply a x) b)))))

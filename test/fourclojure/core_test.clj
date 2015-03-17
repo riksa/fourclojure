@@ -505,3 +505,10 @@
     (is (= (p56 [:a :a :b :b :c :c]) [:a :b :c]))
     (is (= (p56 '([2 4] [1 2] [1 3] [1 3])) '([2 4] [1 2] [1 3])))
     (is (= (p56 (range 50)) (range 50)))))
+
+(deftest p158test
+  (testing "p58"
+    (is (= [3 2 1] ((p58 rest reverse) [1 2 3 4])))
+    (is (= 5 ((p58 (partial + 3) second) [1 2 3 4])))
+    (is (= true ((p58 zero? #(mod % 8) +) 3 5 7 9)))
+    (is (= "HELLO" ((p58 #(.toUpperCase %) #(apply str %) take) 5 "hello world")))))
