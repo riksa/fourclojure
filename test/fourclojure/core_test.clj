@@ -519,4 +519,14 @@
     (is (= (p102 "multi-word-key") "multiWordKey"))
     (is (= (p102 "leaveMeAlone") "leaveMeAlone"))))
 
-#_(deftest p115test)
+(deftest p115test
+  (testing "p115"
+    (is (= true (p115 11)))
+    (is (= true (p115 121)))
+    (is (= false (p115 123)))
+    (is (= true (p115 0)))
+    (is (= false (p115 88099)))
+    (is (= true (p115 89098)))
+    (is (= true (p115 89089)))
+    (is (= (take 20 (filter p115 (range)))
+           [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101])  )))
