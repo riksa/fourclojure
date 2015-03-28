@@ -10,5 +10,6 @@
                        :dev     {:source-paths ["dev"]
                                  :dependencies [[spyscope "0.1.5"]
                                                 [org.clojure/tools.namespace "0.2.9"]
+                                                [org.clojure/tools.nrepl "0.2.10"]
                                                 [leiningen #=(leiningen.core.main/leiningen-version)]
                                                 [im.chit/vinyasa "0.3.4"]]}})

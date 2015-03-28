@@ -1,4 +1,5 @@
 (ns user
+  (:require [spyscope.core])
   (:require [vinyasa.lein :as lein])
   (:require [clojure.tools.namespace.repl :refer [refresh]])
   (:require [fourclojure.core :refer :all]))
