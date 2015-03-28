@@ -389,8 +389,7 @@ Write a function which returns the nth row of Pascal's Triangle. "
          (and
            (coll? n)
            (= 3 (count n))
-           (p95 (second n))
-           (p95 (nth n 2)))
+           (every? true? (map p95 (rest n))))
          false)))
 
 
