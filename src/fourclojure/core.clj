@@ -384,16 +384,13 @@ Write a function which returns the nth row of Pascal's Triangle. "
 (defn p95
   "Write a predicate which checks whether or not a given sequence represents a binary tree. Each node in the tree must
   have a value, a left child, and a right child."
-  ([s] (letfn [
-               (node? [n]
-                      (or
-                        (nil? n)
-                        (and
-                          (coll? n)
-                          (= 3 (count n))
-                          (node? (second n))
-                          (node? (nth n 2)))
-                        false))]
-         (node? s))))
+  ([n] (or
+         (nil? n)
+         (and
+           (coll? n)
+           (= 3 (count n))
+           (p95 (second n))
+           (p95 (nth n 2)))
+         false)))
 
 
