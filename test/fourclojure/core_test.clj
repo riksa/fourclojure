@@ -556,3 +556,12 @@
     (is (= (p53 [2 3 3 4 5]) [3 4 5]))
     (is (= (p53 [7 6 5 4]) []))))
 
+(deftest p82test
+  (testing "p82"
+    (is (= true (p82 #{"hat" "coat" "dog" "cat" "oat" "cot" "hot" "hog"})))
+    (is (= false (p82 #{"cot" "hot" "bat" "fat"})))
+    (is (= false (p82 #{"to" "top" "stop" "tops" "toss"})))
+    (is (= true (p82 #{"spout" "do" "pot" "pout" "spot" "dot"})))
+    (is (= true (p82 #{"share" "hares" "shares" "hare" "are"})))
+    (is (= false (p82 #{"share" "hares" "hare" "are"})))))
+

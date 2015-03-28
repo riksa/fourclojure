@@ -410,3 +410,14 @@ Write a function which returns the nth row of Pascal's Triangle. "
            ))
          {:m [] :s []} c))))
 
+(defn dist1?
+  ([x y] (letfn [(c [x y] (count (take-while true? (map = x y))))]
+           (>= (+ (c x y) (c (reverse x) (reverse y))) (dec (max (count x) (count y))) ))))
+
+(def s #{"hat" "coat" "dog" "cat" "oat" "cot" "hot" "hog"})
+
+(defn p82
+  ([s] (for [n s
+             :let [r (disj s n)]
+             :when (some (partial dist1? n) r)
+             ] (some (partial dist1? n) r))))
