@@ -448,7 +448,7 @@
 (deftest p50test
   (testing "p50"
     (is (= (set (p50 [1 :a 2 :b 3 :c])) #{[1 2 3] [:a :b :c]}))
-    (is (= (set (p50 [:a "foo"  "bar" :b])) #{[:a :b] ["foo" "bar"]}))
+    (is (= (set (p50 [:a "foo" "bar" :b])) #{[:a :b] ["foo" "bar"]}))
     (is (= (set (p50 [[1 2] :a [3 4] 5 6 :b])) #{[[1 2] [3 4]] [:a :b] [5 6]}))))
 
 (deftest p153test
@@ -456,41 +456,41 @@
     (is (= (p153 #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
            true))
     (is (= (p153 #{#{:a :b :c :d :e}
-                 #{:a :b :c :d}
-                 #{:a :b :c}
-                 #{:a :b}
-                 #{:a}})
+                   #{:a :b :c :d}
+                   #{:a :b :c}
+                   #{:a :b}
+                   #{:a}})
            false))
     (is (= (p153 #{#{[1 2 3] [4 5]}
-                 #{[1 2] [3 4 5]}
-                 #{[1] [2] 3 4 5}
-                 #{1 2 [3 4] [5]}})
+                   #{[1 2] [3 4 5]}
+                   #{[1] [2] 3 4 5}
+                   #{1 2 [3 4] [5]}})
            true))
     (is (= (p153 #{#{'a 'b}
-                 #{'c 'd 'e}
-                 #{'f 'g 'h 'i}
-                 #{''a ''c ''f}})
+                   #{'c 'd 'e}
+                   #{'f 'g 'h 'i}
+                   #{''a ''c ''f}})
            true))
     (is (= (p153 #{#{'(:x :y :z) '(:x :y) '(:z) '()}
-                 #{#{:x :y :z} #{:x :y} #{:z} #{}}
-                 #{'[:x :y :z] [:x :y] [:z] [] {}}})
+                   #{#{:x :y :z} #{:x :y} #{:z} #{}}
+                   #{'[:x :y :z] [:x :y] [:z] [] {}}})
            false))
     (is (= (p153 #{#{(= "true") false}
-                 #{:yes :no}
-                 #{(class 1) 0}
-                 #{(symbol "true") 'false}
-                 #{(keyword "yes") ::no}
-                 #{(class '1) (int \0)}})
+                   #{:yes :no}
+                   #{(class 1) 0}
+                   #{(symbol "true") 'false}
+                   #{(keyword "yes") ::no}
+                   #{(class '1) (int \0)}})
            false))
     (is (= (p153 #{#{distinct?}
-                 #{#(-> %) #(-> %)}
-                 #{#(-> %) #(-> %) #(-> %)}
-                 #{#(-> %) #(-> %) #(-> %)}})
+                   #{#(-> %) #(-> %)}
+                   #{#(-> %) #(-> %) #(-> %)}
+                   #{#(-> %) #(-> %) #(-> %)}})
            true))
     (is (= (p153 #{#{(#(-> *)) + (quote mapcat) #_ nil}
-                 #{'+ '* mapcat (comment mapcat)}
-                 #{(do) set contains? nil?}
-                 #{, , , #_, , empty?}})
+                   #{'+ '* mapcat (comment mapcat)}
+                   #{(do) set contains? nil?}
+                   #{,,, #_, , empty?}})
            false))))
 
 (deftest p55test
@@ -529,7 +529,7 @@
     (is (= true (p115 89098)))
     (is (= true (p115 89089)))
     (is (= (take 20 (filter p115 (range)))
-           [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101])  )))
+           [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101]))))
 
 (deftest p95test
   (testing "p95"
@@ -548,3 +548,11 @@
     (is (= (p95 '(:a nil ()))
            false)
         )))
+
+(deftest p53test
+  (testing "p53"
+    (is (= (p53 [1 0 1 2 3 0 4 5]) [0 1 2 3]))
+    (is (= (p53 [5 6 1 3 2 7]) [5 6]))
+    (is (= (p53 [2 3 3 4 5]) [3 4 5]))
+    (is (= (p53 [7 6 5 4]) []))))
+

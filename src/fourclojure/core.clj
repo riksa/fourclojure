@@ -392,4 +392,21 @@ Write a function which returns the nth row of Pascal's Triangle. "
            (every? true? (map p95 (rest n))))
          false)))
 
+(defn p53
+  "Given a vector of integers, find the longest consecutive sub-sequence of increasing numbers. If two sub-sequences
+  have the same length, use the one that occurs first. An increasing sub-sequence must have a length of 2 or greater
+  to qualify."
+  ([c] (:m (reduce
+         #(let [{:keys [m s l]} %1 n (conj s %2)]
+           (if (= l (dec %2))
+             (assoc %1
+               :s n
+               :m (if (> (count n) (count m)) n m)
+               :l %2)
+             (assoc %1
+               :s (vector %2)
+               :m m
+               :l %2)
+           ))
+         {:m [] :s []} c))))
 
