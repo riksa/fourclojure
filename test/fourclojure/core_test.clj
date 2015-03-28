@@ -530,3 +530,21 @@
     (is (= true (p115 89089)))
     (is (= (take 20 (filter p115 (range)))
            [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101])  )))
+
+(deftest p95test
+  (testing "p95"
+    (is (= (p95 '(:a (:b nil nil) nil))
+           true))
+    (is (= (p95 '(:a (:b nil nil)))
+           false))
+    (is (= (p95 [1 nil [2 [3 nil nil] [4 nil nil]]])
+           true))
+    (is (= (p95 [1 [2 nil nil] [3 nil nil] [4 nil nil]])
+           false))
+    (is (= (p95 [1 [2 [3 [4 nil nil] nil] nil] nil])
+           true))
+    (is (= (p95 [1 [2 [3 [4 false nil] nil] nil] nil])
+           false))
+    (is (= (p95 '(:a nil ()))
+           false)
+        )))

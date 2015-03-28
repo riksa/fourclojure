@@ -368,7 +368,7 @@ Write a function which returns the nth row of Pascal's Triangle. "
   "Write a function which allows you to create function compositions. The parameter list should take a variable number
   of functions, and create a function applies them from right-to-left."
   ([& f] (let [[a & b] (reverse f)] (fn [& x] (reduce #(%2 %1) (apply a x) b)))))
-  
+
 (defn p102
   "When working with java, you often need to create an object with fieldsLikeThis, but you'd rather work with a hashmap
   that has :keys-like-this until it's time to convert. Write a function which takes lower-case hyphen-separated strings
@@ -378,5 +378,22 @@ Write a function which returns the nth row of Pascal's Triangle. "
 (defn p115
   "A balanced number is one whose component digits have the same sum on the left and right halves of the number.
   Write a function which accepts an integer n, and returns true iff n is balanced."
-  ([n] (letfn [(d [x] (loop [v [] n x] (let [m (mod n 10) r (/ (- n m) 10)] (if (= 0 r) (cons m v) (recur (cons m v) r) ))))]
+  ([n] (letfn [(d [x] (loop [v [] n x] (let [m (mod n 10) r (/ (- n m) 10)] (if (= 0 r) (cons m v) (recur (cons m v) r)))))]
          (let [s (d n) c (count s) n (/ c 2)] (= (reduce + (take n s)) (reduce + (take n (reverse s))))))))
+
+(defn p95
+  "Write a predicate which checks whether or not a given sequence represents a binary tree. Each node in the tree must
+  have a value, a left child, and a right child."
+  ([s] (letfn [
+               (node? [n]
+                      (or
+                        (nil? n)
+                        (and
+                          (coll? n)
+                          (= 3 (count n))
+                          (node? (second n))
+                          (node? (nth n 2)))
+                        false))]
+         (node? s))))
+
+
