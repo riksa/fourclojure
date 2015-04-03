@@ -416,8 +416,17 @@ Write a function which returns the nth row of Pascal's Triangle. "
 
 (def s #{"hat" "coat" "dog" "cat" "oat" "cot" "hot" "hog"})
 
+(defn dist1-filtered
+  ([n h] (filter (partial dist1? n) h)))
+
 (defn p82
-  ([s] (for [n s
+  ([s] (true? (some true? (flatten (for [n s
              :let [r (disj s n)]
              :when (some (partial dist1? n) r)
-             ] (some (partial dist1? n) r))))
+             ] (p82 n r []))))))
+  ([n r s] (if (some (partial dist1? n) r)
+           (for [x (dist1-filtered n r)] (p82 x (disj r x) (conj s n)))
+           (empty? r))))
+
+;           {:needle n :rest (p82 (set (dist1-filtered n r)))})))
+
