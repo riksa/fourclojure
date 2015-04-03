@@ -397,36 +397,31 @@ Write a function which returns the nth row of Pascal's Triangle. "
   have the same length, use the one that occurs first. An increasing sub-sequence must have a length of 2 or greater
   to qualify."
   ([c] (:m (reduce
-         #(let [{:keys [m s l]} %1 n (conj s %2)]
-           (if (= l (dec %2))
-             (assoc %1
-               :s n
-               :m (if (> (count n) (count m)) n m)
-               :l %2)
-             (assoc %1
-               :s (vector %2)
-               :m m
-               :l %2)
-           ))
-         {:m [] :s []} c))))
-
-(defn dist1?
-  ([x y] (letfn [(c [x y] (count (take-while true? (map = x y))))]
-           (>= (+ (c x y) (c (reverse x) (reverse y))) (dec (max (count x) (count y))) ))))
-
-(def s #{"hat" "coat" "dog" "cat" "oat" "cot" "hot" "hog"})
-
-(defn dist1-filtered
-  ([n h] (filter (partial dist1? n) h)))
+             #(let [{:keys [m s l]} %1 n (conj s %2)]
+               (if (= l (dec %2))
+                 (assoc %1
+                   :s n
+                   :m (if (> (count n) (count m)) n m)
+                   :l %2)
+                 (assoc %1
+                   :s (vector %2)
+                   :m m
+                   :l %2)
+                 ))
+             {:m [] :s []} c))))
 
 (defn p82
-  ([s] (true? (some true? (flatten (for [n s
-             :let [r (disj s n)]
-             :when (some (partial dist1? n) r)
-             ] (p82 n r []))))))
-  ([n r s] (if (some (partial dist1? n) r)
-           (for [x (dist1-filtered n r)] (p82 x (disj r x) (conj s n)))
-           (empty? r))))
+  ([s] (true?
+         (some true?
+               (flatten (for [n s
+                              :let [r (disj s n)]
+                              ] (p82 n r []))))))
+  ([n r s]
+   (letfn [(c [x y] (count (take-while true? (map = x y))))
+           (dist1? [x y] (>= (+ (c x y) (c (reverse x) (reverse y))) (dec (max (count x) (count y)))))
+           (dist1-filtered [n h] (filter (partial dist1? n) h))]
+     (if (some (partial dist1? n) r)
+       (for [x (dist1-filtered n r)] (p82 x (disj r x) (conj s n)))
+       (empty? r)))))
 
-;           {:needle n :rest (p82 (set (dist1-filtered n r)))})))
 
