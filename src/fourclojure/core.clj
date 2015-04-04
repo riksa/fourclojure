@@ -469,7 +469,8 @@ Write a function which returns the nth row of Pascal's Triangle. "
 (def c (first (reduce cartesian [] (comb v))))
 
 (defn sub
-  ([c x y n] (take n (drop x (apply map vector (take n (drop y c)))))))
+  ([c x y n] (let [s (take n (drop x (apply map vector (take n (drop y c)))))]
+               (if (every? (complement nil?) (flatten s)) s))))
 
 (defn latin-square?
   ([c] (if (and
