@@ -565,3 +565,11 @@
     (is (= true (p82 #{"share" "hares" "shares" "hare" "are"})))
     (is (= false (p82 #{"share" "hares" "hare" "are"})))))
 
+(deftest p95test
+  (testing "p95"
+    (is (= [#{""} #{"()"} #{"()()" "(())"}] (map (fn [n] (p95 n)) [0 1 2])))
+    (is (= #{"((()))" "()()()" "()(())" "(())()" "(()())"} (p95 3)))
+    (is (= 16796 (count (p95 10))))
+    (is (= (nth (sort (filter #(.contains ^String % "(()()()())") (p95 9))) 6) "(((()()()())(())))"))
+    (is (= (nth (sort (p95 12)) 5000) "(((((()()()()()))))(()))"))))
+
