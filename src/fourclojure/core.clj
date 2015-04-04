@@ -463,12 +463,26 @@ Write a function which returns the nth row of Pascal's Triangle. "
 
 (defn cartesian
   ([s1 s2] (if (empty? s1) (map vector s2) (into [] (apply concat (map
-                                     (fn [a]
-                                       (map #(conj %1 a) s1)) s2))))))
-(defn cartesian-reducer
+                                                                    (fn [a]
+                                                                      (map #(conj %1 a) s1)) s2))))))
+
+(def c (first (reduce cartesian [] (comb v))))
+
+(defn sub
+  ([c x y n] (take n (drop x (apply map vector (take n (drop y c)))))))
+
+(defn latin-square?
+  ([c] (let [d (count c) f (apply map vector c)]
+         (and
+           (= d (count (apply hash-set (flatten c))))
+           (every? (partial = d) (map count (apply map hash-set c)))
+           (every? (partial = d) (map count (apply map hash-set f))))
+         )))
+
+#_(defn cartesian-reducer
   ([l r] (for [[s v](cartesian l r)] (conj s v))))
 
-(defn arrangement
+#_(defn arrangement
   ([v] (let [a (comb v) r (into [] (map first a))]
          (for [i (range (count a)) x (nth a i)
                :let [v []]]
@@ -521,4 +535,14 @@ Write a function which returns the nth row of Pascal's Triangle. "
 
   1 Of course, we can consider sequences instead of vectors.
   2 Length of a vector is the number of elements in the vector."
-  ([v] nil))
+  ([v] (filter latin-square? (let [d (inc (count v))]
+         (for [n (range 2 d)
+               y (range (- d n))
+               x (range (- d n))] (sub v x y n))))))
+
+(def sq '[[A B C D E F]
+          [B C D E F A]
+          [C D E F A B]
+          [D E F A B C]
+          [E F A B C D]
+          [F A B C D E]])
