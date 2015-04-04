@@ -446,6 +446,22 @@ Write a function which returns the nth row of Pascal's Triangle. "
                (if (> r 0)
                  (p95 (conj s "(") (dec r) (inc o)))))))
 
+(def v '[[A B C D]
+         [B A D]
+         [D A]
+         [C D A B]])
+
+(defn comb
+  ([v] (let [m (apply max (map count v))]
+         (for [y (range (count v))
+               :let [r (v y)
+                     missing (- m (count r))]]
+           (for [o (range (inc missing))]
+             (concat (repeat o nil) r (repeat (- missing o) nil)))))))
+
+(defn arrangement
+  ([v] (comb v)))
+
 (defn p152
   "A Latin square of order n is an n x n array that contains n different elements, each occurring exactly once in each
   row, and exactly once in each column. For example, among the following arrays only the first one forms a Latin square:
