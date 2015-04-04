@@ -535,10 +535,10 @@ Write a function which returns the nth row of Pascal's Triangle. "
 
   1 Of course, we can consider sequences instead of vectors.
   2 Length of a vector is the number of elements in the vector."
-  ([v] (filter latin-square? (let [d (inc (count v))]
+  ([v] (frequencies (map count (into #{} (filter latin-square? (let [d (inc (count v))]
          (for [n (range 2 d)
                y (range (- d n))
-               x (range (- d n))] (sub v x y n))))))
+               x (range (- d n))] (sub v x y n)))))))))
 
 (def sq '[[A B C D E F]
           [B C D E F A]
