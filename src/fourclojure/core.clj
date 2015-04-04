@@ -476,7 +476,7 @@ Write a function which returns the nth row of Pascal's Triangle. "
              (> (count c) 1)
              (every?
                (partial = (count c))
-               (map count #spy/p c)))
+               (map count c)))
          (let [d (count c) f (apply map vector c)]
            (and
              (= d (count (apply hash-set (flatten c))))
@@ -544,10 +544,11 @@ Write a function which returns the nth row of Pascal's Triangle. "
          (map count
               (into #{}
                     (filter latin-square?
-                            (let [h #spy/p(inc (count v)) w #spy/p (inc (apply max (map count v)))]
-                              (for [n (range 2 (max w h))
-                                    y (range (- h n))
-                                    x (range (- w n))] (sub v x y n)))))))))
+                            (let [h (inc (count v)) w (inc (apply max (map count v)))]
+                              (for [c (reduce cartesian [] (comb v))
+                                    n (range 2 (min w h))
+                                    y (range (inc (- h n)))
+                                    x (range (inc (- w n)))] (sub c x y n)))))))))
 
 (def sq '[[A B C D E F]
           [B C D E F A]
@@ -562,3 +563,5 @@ Write a function which returns the nth row of Pascal's Triangle. "
              [3 7 6 8 1 4 5 2]
              [1 8 5 2 4]
              [8 1 2 4 5]])
+
+(def v [[3 1 2] [1 2 3 1 3 4] [2 3 1 3]])
