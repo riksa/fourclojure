@@ -472,12 +472,17 @@ Write a function which returns the nth row of Pascal's Triangle. "
   ([c x y n] (take n (drop x (apply map vector (take n (drop y c)))))))
 
 (defn latin-square?
-  ([c] (let [d (count c) f (apply map vector c)]
-         (and
-           (= d (count (apply hash-set (flatten c))))
-           (every? (partial = d) (map count (apply map hash-set c)))
-           (every? (partial = d) (map count (apply map hash-set f))))
-         )))
+  ([c] (if (and
+             (> (count c) 1)
+             (every?
+               (partial = (count c))
+               (map count #spy/p c)))
+         (let [d (count c) f (apply map vector c)]
+           (and
+             (= d (count (apply hash-set (flatten c))))
+             (every? (partial = d) (map count (apply map hash-set c)))
+             (every? (partial = d) (map count (apply map hash-set f))))
+           ))))
 
 #_(defn cartesian-reducer
   ([l r] (for [[s v](cartesian l r)] (conj s v))))
@@ -535,10 +540,14 @@ Write a function which returns the nth row of Pascal's Triangle. "
 
   1 Of course, we can consider sequences instead of vectors.
   2 Length of a vector is the number of elements in the vector."
-  ([v] (frequencies (map count (into #{} (filter latin-square? (let [d (inc (count v))]
-         (for [n (range 2 d)
-               y (range (- d n))
-               x (range (- d n))] (sub v x y n)))))))))
+  ([v] (frequencies
+         (map count
+              (into #{}
+                    (filter latin-square?
+                            (let [h #spy/p(inc (count v)) w #spy/p (inc (apply max (map count v)))]
+                              (for [n (range 2 (max w h))
+                                    y (range (- h n))
+                                    x (range (- w n))] (sub v x y n)))))))))
 
 (def sq '[[A B C D E F]
           [B C D E F A]
@@ -546,3 +555,10 @@ Write a function which returns the nth row of Pascal's Triangle. "
           [D E F A B C]
           [E F A B C D]
           [F A B C D E]])
+
+(def tricky [[8 6 7 3 2 5 1 4]
+             [6 8 3 7]
+             [7 3 8 6]
+             [3 7 6 8 1 4 5 2]
+             [1 8 5 2 4]
+             [8 1 2 4 5]])
