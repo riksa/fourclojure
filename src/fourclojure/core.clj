@@ -446,55 +446,6 @@ Write a function which returns the nth row of Pascal's Triangle. "
                (if (> r 0)
                  (p95 (conj s "(") (dec r) (inc o)))))))
 
-(def v '[[A B C D]
-         [B A D]
-         [D A]
-         [C D A B]])
-
-(defn comb
-  ([v] (let [m (apply max (map count v))]
-         (into []
-               (for [y (range (count v))
-                     :let [r (v y)
-                           missing (- m (count r))]]
-                 (into []
-                       (for [o (range (inc missing))]
-                         (concat (repeat o nil) r (repeat (- missing o) nil)))))))))
-
-(defn cartesian
-  ([s1 s2] (if (empty? s1) (map vector s2) (into [] (apply concat (map
-                                                                    (fn [a]
-                                                                      (map #(conj %1 a) s1)) s2))))))
-
-(def c (first (reduce cartesian [] (comb v))))
-
-(defn sub
-  ([c x y n] (let [s (take n (drop x (apply map vector (take n (drop y c)))))]
-               (if (every? (complement nil?) (flatten s)) s))))
-
-(defn latin-square?
-  ([c] (if (and
-             (> (count c) 1)
-             (every?
-               (partial = (count c))
-               (map count c)))
-         (let [d (count c) f (apply map vector c)]
-           (and
-             (= d (count (apply hash-set (flatten c))))
-             (every? (partial = d) (map count (apply map hash-set c)))
-             (every? (partial = d) (map count (apply map hash-set f))))
-           ))))
-
-#_(defn cartesian-reducer
-  ([l r] (for [[s v](cartesian l r)] (conj s v))))
-
-#_(defn arrangement
-  ([v] (let [a (comb v) r (into [] (map first a))]
-         (for [i (range (count a)) x (nth a i)
-               :let [v []]]
-           (assoc r i x)))))
-
-
 (defn p152
   "A Latin square of order n is an n x n array that contains n different elements, each occurring exactly once in each
   row, and exactly once in each column. For example, among the following arrays only the first one forms a Latin square:
@@ -543,26 +494,43 @@ Write a function which returns the nth row of Pascal's Triangle. "
   2 Length of a vector is the number of elements in the vector."
   ([v] (frequencies
          (map count
-              (into #{}
-                    (filter latin-square?
-                            (let [h (inc (count v)) w (inc (apply max (map count v)))]
-                              (for [c (reduce cartesian [] (comb v))
-                                    n (range 2 (min w h))
-                                    y (range (inc (- h n)))
-                                    x (range (inc (- w n)))] (sub c x y n)))))))))
+              (letfn [(latin-square?
+                        [c] (if (and
+                                  (> (count c) 1)
+                                  (every?
+                                    (partial = (count c))
+                                    (map count c)))
+                              (let [d (count c) f (apply map vector c)]
+                                (and
+                                  (= d (count (apply hash-set (flatten c))))
+                                  (every? (partial = d) (map count (apply map hash-set c)))
+                                  (every? (partial = d) (map count (apply map hash-set f))))
+                                )))
+                      (sub
+                        [c x y n] (let [s (take n (drop x (apply map vector (take n (drop y c)))))]
+                                    (if (every? (complement nil?) (flatten s)) s)))
 
-(def sq '[[A B C D E F]
-          [B C D E F A]
-          [C D E F A B]
-          [D E F A B C]
-          [E F A B C D]
-          [F A B C D E]])
+                      (cartesian
+                        [s1 s2] (if (empty? s1) (map vector s2) (into [] (apply concat (map
+                                                                                         (fn [a]
+                                                                                           (map #(conj %1 a) s1)) s2)))))
 
-(def tricky [[8 6 7 3 2 5 1 4]
-             [6 8 3 7]
-             [7 3 8 6]
-             [3 7 6 8 1 4 5 2]
-             [1 8 5 2 4]
-             [8 1 2 4 5]])
 
-(def v [[3 1 2] [1 2 3 1 3 4] [2 3 1 3]])
+                      (comb
+                        [v] (let [m (apply max (map count v))]
+                              (into []
+                                    (for [y (range (count v))
+                                          :let [r (v y)
+                                                missing (- m (count r))]]
+                                      (into []
+                                            (for [o (range (inc missing))]
+                                              (concat (repeat o nil) r (repeat (- missing o) nil))))))))
+                      ]
+                (into #{}
+                      (filter latin-square?
+                              (let [h (inc (count v)) w (inc (apply max (map count v)))]
+                                (for [c (reduce cartesian [] (comb v))
+                                      n (range 2 (min w h))
+                                      y (range (inc (- h n)))
+                                      x (range (inc (- w n)))] (sub c x y n))))))))))
+
