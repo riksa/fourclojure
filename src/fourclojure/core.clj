@@ -1,5 +1,8 @@
 (ns fourclojure.core
-  (:gen-class))
+  (:gen-class)
+  (:require [taoensso.timbre :as timbre]))
+
+(timbre/refer-timbre)
 
 (defn -main
   "I don't do a whole lot ... yet."
@@ -492,10 +495,10 @@ Write a function which returns the nth row of Pascal's Triangle. "
 
   1 Of course, we can consider sequences instead of vectors.
   2 Length of a vector is the number of elements in the vector."
-  ([v] (frequencies
+  ([v] (p :total (frequencies
          (map count
               (letfn [(latin-square?
-                        [c] (if (and
+                        [c] (p :latin-square? (if (and
                                   (> (count c) 1)
                                   (every?
                                     (partial = (count c))
@@ -505,32 +508,43 @@ Write a function which returns the nth row of Pascal's Triangle. "
                                   (= d (count (distinct (flatten c))))
                                   (every? (partial = d) (map (comp count distinct) c))
                                   (every? (partial = d) (map (comp count distinct) f)))
-                                )))
+                                ))))
                       (sub
-                        [c x y n] (let [s (take n (drop x (apply map vector (take n (drop y c)))))]
-                                    (if (every? (complement nil?) (flatten s)) s)))
+                        [c x y n] (p :sub (let [s (->> c (drop y) (take n) (map (comp (partial take n) (partial drop x))))]
+                                    (if (every? (complement nil?) (flatten s)) s))))
 
                       (cartesian
-                        [s1 s2] (if (empty? s1) (map vector s2) (into [] (apply concat (map
+                        [s1 s2] (p :cartesian (if (empty? s1) (map vector s2) (into [] (apply concat (map
                                                                                          (fn [a]
-                                                                                           (map #(conj %1 a) s1)) s2)))))
+                                                                                           (map #(conj %1 a) s1)) s2))))))
 
 
                       (comb
-                        [v] (let [m (apply max (map count v))]
+                        [v] (p :comb (let [m (apply max (map count v))]
                               (into []
                                     (for [y (range (count v))
                                           :let [r (v y)
                                                 missing (- m (count r))]]
                                       (into []
                                             (for [o (range (inc missing))]
-                                              (concat (repeat o nil) r (repeat (- missing o) nil))))))))
+                                              (concat (repeat o nil) r (repeat (- missing o) nil)))))))))
                       ]
                 (distinct
-                      (filter latin-square?
+                      (filter (memoize latin-square?)
                               (let [h (inc (count v)) w (inc (apply max (map count v)))]
                                 (for [c (reduce cartesian [] (comb v))
                                       n (range 2 (min w h))
-                                      y (range (inc (- h n)))
-                                      x (range (inc (- w n)))] (sub c x y n))))))))))
+                                      y (range (- h n))
+                                      x (range (- w n))] (sub c x y n)))))))))))
 
+(def tricky [[8 6 7 3 2 5 1 4]
+             [6 8 3 7]
+             [7 3 8 6]
+             [3 7 6 8 1 4 5 2]
+             [1 8 5 2 4]
+             [8 1 2 4 5]])
+
+(def c [[1 2 3][4 5 6][7 8 9]])
+(def n 2)
+(def x 1)
+(def y 1)
