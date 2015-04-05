@@ -502,9 +502,9 @@ Write a function which returns the nth row of Pascal's Triangle. "
                                     (map count c)))
                               (let [d (count c) f (apply map vector c)]
                                 (and
-                                  (= d (count (apply hash-set (flatten c))))
-                                  (every? (partial = d) (map count (apply map hash-set c)))
-                                  (every? (partial = d) (map count (apply map hash-set f))))
+                                  (= d (count (distinct (flatten c))))
+                                  (every? (partial = d) (map (comp count distinct) c))
+                                  (every? (partial = d) (map (comp count distinct) f)))
                                 )))
                       (sub
                         [c x y n] (let [s (take n (drop x (apply map vector (take n (drop y c)))))]
@@ -526,7 +526,7 @@ Write a function which returns the nth row of Pascal's Triangle. "
                                             (for [o (range (inc missing))]
                                               (concat (repeat o nil) r (repeat (- missing o) nil))))))))
                       ]
-                (into #{}
+                (distinct
                       (filter latin-square?
                               (let [h (inc (count v)) w (inc (apply max (map count v)))]
                                 (for [c (reduce cartesian [] (comb v))
